@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="pu_tq" transaction-type="JTA">
-	
-	<!-- Spécification de la datasource -->
-	<jta-data-source>java:/tomquentDS</jta-data-source>
-	
-	<!-- Les props de Hibernate -->
-	<properties>
-		<property name="hibernate.hbm2ddl.auto" value="update"/>
-		<property name="hibernate.show_sql" value="true"/>
-	</properties>
 
-	
+		<!-- Spécification de la datasource -->
+		<jta-data-source>java:/tomquentDS</jta-data-source>
+
+		<!-- Enumération des entities persistente du projet -->
+		<class>fr.adaming.model.Administrateur</class>
+		<class>fr.adaming.model.Categorie</class>
+		<class>fr.adaming.model.Produit</class>
+		<class>fr.adaming.model.Commande</class>
+		<class>fr.adaming.model.LigneCommande</class>
+		<class>fr.adaming.model.Client</class>
+
+
+
+		<!-- Les props de Hibernate -->
+		<properties>
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true" />
+		</properties>
+
+
 	</persistence-unit>
 </persistence>
