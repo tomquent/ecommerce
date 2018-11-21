@@ -1,5 +1,6 @@
 package fr.adaming.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,16 +13,23 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="clients")
-public class Client {
+public class Client implements Serializable {
+	
+	//	Clé Réseau
+	private static final long serialVersionUID = 1L;
 	
 	// Attributs
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_client")
 	private long id;
+	@Column(name="nom_client")
 	private String nom;
+	@Column(name="adresse_client")
 	private String adresse;
+	@Column(name="mail_client")
 	private String mail;
+	@Column(name="tel_client")
 	private String tel;
 	
 	

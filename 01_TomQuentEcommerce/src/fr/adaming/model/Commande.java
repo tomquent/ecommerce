@@ -1,5 +1,6 @@
 package fr.adaming.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,7 +16,10 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="commandes")
-public class Commande {
+public class Commande implements Serializable {
+	
+	//	Clé Réseau
+	private static final long serialVersionUID = 1L;
 	
 	// Attributs
 	@Id
@@ -24,6 +28,7 @@ public class Commande {
 	private long idCom;
 	
 	@Temporal(TemporalType.DATE)
+	@Column(name="date_commande")
 	private Date date;
 	
 	// Transformation de l'association UML en JAVA

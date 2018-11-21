@@ -5,19 +5,19 @@ import java.util.List;
 import javax.ejb.Local;
 
 import fr.adaming.model.Client;
-import fr.adaming.model.Commande;
+
 
 @Local
 public interface IClientDao {
 	
 	public List<Client> getAllClient();
 	
-	public Client getCom(Client cl);
+	public Client getClient(Client cl);
 	
 	public Client addClient(Client cl);
 	
-	public int updateClient(Commande cl);
+	public int updateClient(Client cl);
 	
-	public int deleteClient(Commande cl);
+	public int deleteClient(Client cl);
 
 }
