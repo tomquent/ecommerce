@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -26,10 +26,19 @@ public class CategorieMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// association UML en JAVA
-	@EJB
+	@ManagedProperty(value = "catService")
 	private ICategorieService catService;
-	@EJB
-	private IProduitService pService;
+
+	public void setCatService(ICategorieService catService) {
+		this.catService = catService;
+	}
+
+	@ManagedProperty(value = "prodService")
+	private IProduitService prodService;
+
+	public void setProdService(IProduitService prodService) {
+		this.prodService = prodService;
+	}
 
 	// attributs
 	private Categorie cat;
@@ -49,7 +58,7 @@ public class CategorieMB implements Serializable {
 	public void init() {
 		this.cat = new Categorie();
 		this.maSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-		this.file=null;
+		this.file = null;
 	}
 
 	// G&S
@@ -136,10 +145,10 @@ public class CategorieMB implements Serializable {
 		return "modificationCategorie";
 	}
 
-	public String modifierCategorie() {		
-		if (this.file.getSize()==0) {
+	public String modifierCategorie() {
+		if (this.file.getSize() == 0) {
 			this.cat.setPhoto(catService.getCategorie(this.cat).getPhoto());
-		}else {
+		} else {
 			this.cat.setPhoto(file.getContents());
 		}
 
@@ -164,7 +173,7 @@ public class CategorieMB implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catSession", this.cat);
 
 //		ajout de la liste de produit de la categorie selectionnée
-		this.listeProduits = pService.getAllProduits(this.cat);
+		this.listeProduits = prodService.getAllProduits(this.cat);
 
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("produitsListe", listeProduits);
 

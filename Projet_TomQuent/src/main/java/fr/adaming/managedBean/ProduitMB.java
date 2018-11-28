@@ -3,9 +3,9 @@ package fr.adaming.managedBean;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -25,12 +25,21 @@ public class ProduitMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// association UML en JAVA
-	@EJB
+	@ManagedProperty(value="#{catService}")
 	private ICategorieService catService;
-	@EJB
-	private IProduitService pService;
+	
+	public void setCatService(ICategorieService catService) {
+		this.catService = catService;
+	}
+
+	@ManagedProperty(value="#{prodService}")
+	private IProduitService prodService;
 
 	// Attributs
+
+	public void setProdService(IProduitService prodService) {
+		this.prodService = prodService;
+	}
 
 	private Produit produit;
 	private Categorie categorie;
@@ -95,11 +104,11 @@ public class ProduitMB implements Serializable {
 	public String ajouterProduit() {
 
 		this.produit.setPhoto(file.getContents());
-		Produit pOut = pService.addProduit(this.produit, this.categorie);
+		Produit pOut = prodService.addProduit(this.produit, this.categorie);
 		if (pOut.getIdProduit() != 0) {
 			// maj de la liste
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("produitsListe",
-					pService.getAllProduits(this.categorie));
+					prodService.getAllProduits(this.categorie));
 			return "accueilGestionAdmin";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -111,11 +120,11 @@ public class ProduitMB implements Serializable {
 	// Méthode supprimerProduit
 
 	public void supprimerProduit() {
-		int verif = pService.deleteProduit(this.produit, this.categorie);
+		int verif = prodService.deleteProduit(this.produit, this.categorie);
 		if (verif != 0) {
 			// maj de la liste
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("produitsListe",
-					pService.getAllProduits(this.categorie));
+					prodService.getAllProduits(this.categorie));
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Attention", "Impossible de supprimer ce produit"));
@@ -131,16 +140,16 @@ public class ProduitMB implements Serializable {
 	public String modifierProduit() {
 		
 		if (this.file.getSize()==0) {
-			this.produit.setPhoto(pService.getProduit(this.produit, this.categorie).getPhoto());
+			this.produit.setPhoto(prodService.getProduit(this.produit, this.categorie).getPhoto());
 		}else {
 			this.produit.setPhoto(file.getContents());
 		}
 		
-		int verif = pService.updateProduit(this.produit, this.categorie);
+		int verif = prodService.updateProduit(this.produit, this.categorie);
 		if (verif != 0) {
 			// maj de la liste
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("produitsListe",
-					pService.getAllProduits(this.categorie));
+					prodService.getAllProduits(this.categorie));
 			return "accueilGestionAdmin";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Attention",
@@ -153,7 +162,7 @@ public class ProduitMB implements Serializable {
 	
 	public String lienProduitView(){
 		
-		this.produit=pService.getProduit(this.produit, this.produit.getpCategorie());
+		this.produit=prodService.getProduit(this.produit, this.produit.getpCategorie());
 		
 		return "ficheProduit";
 	}

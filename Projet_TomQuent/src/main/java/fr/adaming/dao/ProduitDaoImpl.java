@@ -2,22 +2,26 @@ package fr.adaming.dao;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import org.apache.commons.codec.binary.Base64;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import fr.adaming.model.Categorie;
 import fr.adaming.model.Produit;
 
-@Stateless
+@Repository
 public class ProduitDaoImpl implements IProduitDao {
 
 	// association UML en JAVA
-	@PersistenceContext(unitName = "pu_tq")
-	private EntityManager em;
+	@Autowired
+	SessionFactory sf;
+
+	public void setSf(SessionFactory sf) {
+		this.sf = sf;
+	}
 
 	// Méthodes
 
@@ -26,11 +30,13 @@ public class ProduitDaoImpl implements IProduitDao {
 	@Override
 	public List<Produit> getAllProduits(Categorie cat) {
 
-		String req = "SELECT p FROM Produit p WHERE p.pCategorie.idCategorie=:pIdCat";
-		Query query = em.createQuery(req);
+		Session s = sf.getCurrentSession();
+
+		String req = "FROM Produit p WHERE p.pCategorie.idCategorie=:pIdCat";
+		Query query = s.createQuery(req);
 		query.setParameter("pIdCat", cat.getIdCategorie());
 
-		List<Produit> liste = query.getResultList();
+		List<Produit> liste = query.list();
 
 		for (Produit p : liste) {
 			p.setImage("data:image/png;base64," + Base64.encodeBase64String(p.getPhoto()));
@@ -42,15 +48,18 @@ public class ProduitDaoImpl implements IProduitDao {
 	// Méthode getAllProduit without Categorie
 	@Override
 	public List<Produit> getAllProduits() {
+
+		Session s = sf.getCurrentSession();
+
 		String req = "SELECT p FROM Produit p";
-		Query query = em.createQuery(req);
-		
-		List<Produit> liste = query.getResultList();
+		Query query = s.createQuery(req);
+
+		List<Produit> liste = query.list();
 
 		for (Produit p : liste) {
 			p.setImage("data:image/png;base64," + Base64.encodeBase64String(p.getPhoto()));
 		}
-		
+
 		return liste;
 	}
 
@@ -59,20 +68,33 @@ public class ProduitDaoImpl implements IProduitDao {
 	@Override
 	public Produit getProduit(Produit p) {
 
-		Produit pOut = em.find(Produit.class, p.getIdProduit());
-		pOut.setImage("data:image/png;base64," + Base64.encodeBase64String(p.getPhoto()));
+		Session s = sf.getCurrentSession();
+
+		String req = "FROM Produit p WHERE p.idProduit=:pIdP AND p.pCategorie.idCategorie=:pIdCat";
+
+		Query query = s.createQuery(req);
+
+		query.setParameter("pIdP", p.getIdProduit());
+		query.setParameter("pIdCat", p.getpCategorie().getIdCategorie());
+
+		Produit pOut = (Produit) query.uniqueResult();
+
+		pOut.setImage("data:image/png;base64," + Base64.encodeBase64String(pOut.getPhoto()));
+
 		return pOut;
 
 	}
-	//Méthode searchProduitWithName
+	// Méthode searchProduitWithName
 
-	public List<Produit> searchProduits(Produit p){
-		
-		String req = "SELECT p FROM Produit p WHERE p.designation LIKE :pDesignation";
-		Query query = em.createQuery(req);
-		query.setParameter("pDesignation", "%"+p.getDesignation()+"%");
-		
-		List<Produit> liste = query.getResultList();
+	public List<Produit> searchProduits(Produit p) {
+
+		Session s = sf.getCurrentSession();
+
+		String req = "FROM Produit p WHERE p.designation LIKE :pDesignation";
+		Query query = s.createQuery(req);
+		query.setParameter("pDesignation", "%" + p.getDesignation() + "%");
+
+		List<Produit> liste = query.list();
 
 		for (Produit pdt : liste) {
 			pdt.setImage("data:image/png;base64," + Base64.encodeBase64String(pdt.getPhoto()));
@@ -80,12 +102,15 @@ public class ProduitDaoImpl implements IProduitDao {
 		return liste;
 	}
 
-
 	// Méthode addProduit
 
 	@Override
 	public Produit addProduit(Produit p) {
-		em.persist(p);
+
+		Session s = sf.getCurrentSession();
+
+		s.save(p);
+
 		return p;
 	}
 
@@ -93,23 +118,36 @@ public class ProduitDaoImpl implements IProduitDao {
 
 	@Override
 	public int updateProduit(Produit p) {
-		Produit pOut = em.find(Produit.class, p.getIdProduit());
-		if (pOut.getIdProduit() != 0) {
-			pOut = p;
-			em.merge(pOut);
-			return 1;
-		} else {
-			return 0;
-		}
+
+		Session s = sf.getCurrentSession();
+
+		String req = "UPDATE Produit p SET p.designation=:pDesignation,p.description=:pDescription,p.prix=:pPrix,p.quantite=:pQuantite,p.photo=:pPhoto WHERE p.idProduit=:pIdP AND p.pCategorie.idCategorie=:pIdCat";
+
+		Query query = s.createQuery(req);
+
+		query.setParameter("pDesignation", p.getDesignation());
+		query.setParameter("pDescription", p.getDescription());
+		query.setParameter("pPrix", p.getPrix());
+		query.setParameter("pQuantite", p.getQuantite());
+		query.setParameter("pPhoto", p.getPhoto());
+		query.setParameter("pIdP", p.getIdProduit());
+		query.setParameter("pIdCat", p.getpCategorie().getIdCategorie());
+
+		return query.executeUpdate();
+
 	}
 
 	// Méthode deleteProduit
 	@Override
 	public int deleteProduit(Produit p) {
 
-		String req = "DELETE FROM Produit p WHERE p.idProduit=:pId";
-		Query query = em.createQuery(req);
-		query.setParameter("pId", p.getIdProduit());
+		Session s = sf.getCurrentSession();
+		
+		String req = "DELETE FROM Produit p WHERE p.idProduit=:pIdP AND p.pCategorie.idCategorie=:pIdCat";
+		Query query = s.createQuery(req);
+		query.setParameter("pIdP", p.getIdProduit());
+		query.setParameter("pIdCat", p.getpCategorie().getIdCategorie());
+
 		return query.executeUpdate();
 
 	}

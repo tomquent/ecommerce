@@ -2,19 +2,25 @@ package fr.adaming.service;
 
 import java.util.List;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.adaming.dao.IProduitDao;
 import fr.adaming.model.Categorie;
 import fr.adaming.model.Produit;
 
-@Stateful
+@Service("prodService")
+@Transactional
 public class ProduitServiceImpl implements IProduitService {
 
 	// association UML en JAVA
-	@EJB
+	@Autowired
 	private IProduitDao pDao;
+	
+	public void setpDao(IProduitDao pDao) {
+		this.pDao = pDao;
+	}
 
 	// Méthode getAllProduit
 	@Override
@@ -25,11 +31,8 @@ public class ProduitServiceImpl implements IProduitService {
 	// Méthode getAllProduit toustoustous
 	@Override
 	public List<Produit> getAllProduits() {
-		if (pDao.getAllProduits() != null) {
-			return pDao.getAllProduits();
-		} else {
-			return null;
-		}
+		return pDao.getAllProduits();
+
 	}
 
 	// Méthode getProduit
@@ -42,14 +45,13 @@ public class ProduitServiceImpl implements IProduitService {
 			return null;
 		}
 	}
-	
-	//Méthode searchProduitWithName
-	
+
+	// Méthode searchProduitWithName
+
 	@Override
 	public List<Produit> searchProduits(Produit p) {
 		return pDao.searchProduits(p);
 	}
-
 
 	// Méthode addProduit
 	@Override
@@ -77,7 +79,7 @@ public class ProduitServiceImpl implements IProduitService {
 	// Méthode deleteProduit
 	@Override
 	public int deleteProduit(Produit p, Categorie cat) {
-			return pDao.deleteProduit(p);
+		return pDao.deleteProduit(p);
 	}
 
 }

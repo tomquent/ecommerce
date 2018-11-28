@@ -25,10 +25,19 @@ import fr.adaming.service.IProduitService;
 public class PanierMB implements Serializable {
 
 	// Association UML en JAVA
-	@EJB
+	@ManagedProperty(value="#{comService}")
 	private ICommandeService comService;
-	@EJB
-	private IProduitService pService;
+	
+	public void setComService(ICommandeService comService) {
+		this.comService = comService;
+	}
+
+	@ManagedProperty(value="#{prodService}")
+	private IProduitService prodService;
+	
+	public void setProdService(IProduitService prodService) {
+		this.prodService = prodService;
+	}
 
 	// Attributs
 	private Commande commandeEnCours;

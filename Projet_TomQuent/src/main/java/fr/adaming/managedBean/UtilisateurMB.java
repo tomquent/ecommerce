@@ -27,7 +27,7 @@ public class UtilisateurMB {
 	@ManagedProperty("#{uService}")
 	private IUtilisateurService uService;
 
-	public void setuService(IUtilisateurService uService) {
+	public void setUService(IUtilisateurService uService) {
 		this.uService = uService;
 	}
 
@@ -38,11 +38,11 @@ public class UtilisateurMB {
 		this.catService = catService;
 	}
 
-	@ManagedProperty("#{pService}")
-	private IProduitService pService;
+	@ManagedProperty("#{prodService}")
+	private IProduitService prodService;
 
-	public void setpService(IProduitService pService) {
-		this.pService = pService;
+	public void setProdService(IProduitService prodService) {
+		this.prodService= prodService;
 	}
 
 //	Attributs
