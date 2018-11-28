@@ -2,21 +2,30 @@ package fr.adaming.service;
 
 import java.util.List;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.adaming.dao.IClientDao;
 import fr.adaming.model.Client;
 
-@Stateful
+@Service("clService")
+@Transactional
 public class ClientServiceImpl implements IClientService {
 
 	// Asso UML en JAVA
-	@EJB
+	@Autowired
 	private IClientDao clDao;
-
-	// METHODES
 	
+	// le setter pour l'injection de dependance
+	public void setClDao(IClientDao clDao) {
+		this.clDao = clDao;
+	}
+
+	
+
+	// ******************* METHODES ******************
+
 	//Méthode getAllClient
 	@Override
 	public List<Client> getAllClient() {
@@ -47,12 +56,11 @@ public class ClientServiceImpl implements IClientService {
 
 	@Override
 	public int deleteClient(Client cl) {
-		try {
-			Client clOut = clDao.getClient(cl);
-			return clDao.deleteClient(clOut);
-		} catch (Exception e) {
-			return 0;
-		}
+
+		return clDao.deleteClient(cl);
 	}
+	
+	
+	
 
 }

@@ -1,12 +1,15 @@
 package fr.adaming.dao;
 
-import javax.ejb.Stateless;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.stereotype.Repository;
+
 import fr.adaming.model.LigneCommande;
 
-@Stateless
+
+@Repository
 public class LigneCommandeImpl implements ILigneCommandeDao {
 
 	@PersistenceContext(unitName="pu_tq")
