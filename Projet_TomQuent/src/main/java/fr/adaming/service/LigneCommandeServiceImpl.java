@@ -1,18 +1,28 @@
 package fr.adaming.service;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.adaming.dao.ILigneCommandeDao;
 import fr.adaming.model.LigneCommande;
 
-@Stateful
+@Service("lcService")
+@Transactional
 public class LigneCommandeServiceImpl implements ILigneCommandeService {
 
 //	Association UML en JAVA
-	@EJB
+	@Autowired
 	private ILigneCommandeDao lcDao;
 
+	public void setLcDao(ILigneCommandeDao lcDao) {
+		this.lcDao = lcDao;
+	}
+
+	
+	
+	
 //	Méthodes 
 
 //	méthode d'ajout de la ligne de commande

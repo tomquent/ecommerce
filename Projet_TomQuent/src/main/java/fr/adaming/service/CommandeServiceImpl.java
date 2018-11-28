@@ -2,25 +2,35 @@ package fr.adaming.service;
 
 import java.util.List;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.adaming.dao.IClientDao;
 import fr.adaming.dao.ICommandeDao;
 import fr.adaming.model.Client;
 import fr.adaming.model.Commande;
 
-@Stateful
+@Service("coService")
+@Transactional
 public class CommandeServiceImpl implements ICommandeService {
 	
 	// Asso UML en JAVA
-	@EJB
+	@Autowired
 	private ICommandeDao comDao;
 	
 	
 	// Asso UML en JAVA
-	@EJB 
+	@Autowired
 	private IClientDao clDao;
+
+	public void setComDao(ICommandeDao comDao) {
+		this.comDao = comDao;
+	}
+
+	public void setClDao(IClientDao clDao) {
+		this.clDao = clDao;
+	}
 	
 
 	//  METHODES
