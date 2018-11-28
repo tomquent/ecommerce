@@ -3,10 +3,10 @@ package fr.adaming.managedBean;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpSession;
@@ -24,12 +24,26 @@ import fr.adaming.service.IUtilisateurService;
 public class UtilisateurMB {
 
 //	association UML en JAVA 
-	@EJB
+	@ManagedProperty("#{uService}")
 	private IUtilisateurService uService;
-	@EJB
+
+	public void setuService(IUtilisateurService uService) {
+		this.uService = uService;
+	}
+
+	@ManagedProperty("#{catService}")
 	private ICategorieService catService;
-	@EJB
+
+	public void setCatService(ICategorieService catService) {
+		this.catService = catService;
+	}
+
+	@ManagedProperty("#{pService}")
 	private IProduitService pService;
+
+	public void setpService(IProduitService pService) {
+		this.pService = pService;
+	}
 
 //	Attributs
 	private Utilisateur utilisateur;
@@ -181,7 +195,6 @@ public class UtilisateurMB {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("commandeEnCours", new Commande());
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("clientSession", null);
 
-		
 		// mise de la liste de categorie dans la session
 		this.listeCategories = catService.getAllCategories();
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catListe", this.listeCategories);
@@ -280,7 +293,7 @@ public class UtilisateurMB {
 
 		// recuperation de la liste correspondant à la désignation du produit
 		System.out.println(this.produit.getDesignation());
-		
+
 		this.listeProduits = pService.searchProduits(this.produit);
 
 		// Verification de la contenance de la liste

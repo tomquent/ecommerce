@@ -2,21 +2,25 @@ package fr.adaming.dao;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import org.apache.commons.codec.binary.Base64;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import fr.adaming.model.Categorie;
 
-@Stateless
+@Repository
 public class CategorieDaoImpl implements ICategorieDao {
 
 	// association UML en JAVA
-	@PersistenceContext(unitName = "pu_tq")
-	private EntityManager em;
+	@Autowired
+	private SessionFactory sf;
+
+	public void setSf(SessionFactory sf) {
+		this.sf = sf;
+	}
 
 	// Méthodes
 
@@ -25,9 +29,12 @@ public class CategorieDaoImpl implements ICategorieDao {
 	@Override
 	public List<Categorie> getAllCategories() {
 
-		String req = "SELECT c FROM Categorie c";
-		Query query = em.createQuery(req);
-		List<Categorie> liste = query.getResultList();
+		Session s = sf.getCurrentSession();
+
+		String req = "FROM Categorie c";
+		Query query = s.createQuery(req);
+
+		List<Categorie> liste = (List<Categorie>) query.uniqueResult();
 		for (Categorie cat : liste) {
 			cat.setImage("data:image/png;base64," + Base64.encodeBase64String(cat.getPhoto()));
 		}
@@ -39,8 +46,16 @@ public class CategorieDaoImpl implements ICategorieDao {
 	@Override
 	public Categorie getCategorie(Categorie cat) {
 
-		Categorie catOut = em.find(Categorie.class, cat.getIdCategorie());
-		catOut.setImage("data:image/png;base64," + Base64.encodeBase64String(cat.getPhoto()));
+		Session s = sf.getCurrentSession();
+
+		String req = "FROM Categorie c WHERE c.idCategorie=:pIdC";
+
+		Query query = s.createQuery(req);
+
+		query.setParameter("pIdC", cat.getIdCategorie());
+
+		Categorie catOut = (Categorie) query.uniqueResult();
+		catOut.setImage("data:image/png;base64," + Base64.encodeBase64String(catOut.getPhoto()));
 
 		return catOut;
 	}
@@ -49,36 +64,48 @@ public class CategorieDaoImpl implements ICategorieDao {
 
 	@Override
 	public Categorie addCategorie(Categorie cat) {
-		em.persist(cat);
-		return cat;
 
+		Session s = sf.getCurrentSession();
+
+		s.save(cat);
+
+		return cat;
 	}
 
 	// Méthode updateCategorie
 
 	@Override
 	public int updateCategorie(Categorie cat) {
-		Categorie cOut = em.find(Categorie.class, cat.getIdCategorie());
-		if (cOut.getIdCategorie() != 0) {
-			cOut = cat;
-			em.merge(cOut);
-			return 1;
-		} else {
-			return 0;
-		}
+
+		Session s = sf.getCurrentSession();
+
+		String req = "UPDATE Categorie c SET c.nomCategorie=:pNom,c.photo=:pPhoto,c.description=:pDescription WHERE c.idCategorie=:pIdC";
+
+		Query query = s.createQuery(req);
+
+		query.setParameter("pNom", cat.getNomCategorie());
+		query.setParameter("pPhoto", cat.getPhoto());
+		query.setParameter("pDescription", cat.getDescription());
+		query.setParameter("pIdC", cat.getIdCategorie());
+
+		return query.executeUpdate();
 	}
 
 	// Méthode deleteCategorie
 
 	@Override
 	public int deleteCategorie(Categorie cat) {
-		Categorie cOut = em.find(Categorie.class, cat.getIdCategorie());
-		if (cOut.getIdCategorie() != 0) {
-			em.remove(cOut);
-			return 1;
-		} else {
-			return 0;
-		}
+
+		Session s = sf.getCurrentSession();
+
+		String req = "DELETE Categorie c WHERE c.idCategorie=:pIdC";
+
+		Query query = s.createQuery(req);
+
+		query.setParameter("pIdC", cat.getIdCategorie());
+
+		return query.executeUpdate();
+
 	}
 
 }

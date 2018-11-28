@@ -1,18 +1,23 @@
 package fr.adaming.dao;
 
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import fr.adaming.model.Utilisateur;
 
-@Stateless
+@Repository
 public class UtilisateurDaoImpl implements IUtilisateurDao {
 
 	// association UML en JAVA
-	@PersistenceContext(unitName = "pu_tq")
-	private EntityManager em;
+	@Autowired
+	private SessionFactory sf;
+	
+	public void setSf(SessionFactory sf) {
+		this.sf = sf;
+	}
 
 	// Méthode
 
@@ -20,11 +25,14 @@ public class UtilisateurDaoImpl implements IUtilisateurDao {
 
 	@Override
 	public Utilisateur isExist(Utilisateur u) {
-			String req="SELECT u FROM Utilisateur u WHERE u.mail=:pMail AND u.mdp=:pMdp";
-			Query query=em.createQuery(req);
-			query.setParameter("pMail", u.getMail());
-			query.setParameter("pMdp", u.getMdp());
-			return (Utilisateur) query.getSingleResult();	
+
+		Session s = sf.getCurrentSession();
+
+		String req = "FROM Utilisateur u WHERE u.mail=:pMail AND u.mdp=:pMdp";
+		Query query = s.createQuery(req);
+		query.setParameter("pMail", u.getMail());
+		query.setParameter("pMdp", u.getMdp());
+		return (Utilisateur) query.uniqueResult();
 	}
 
 }

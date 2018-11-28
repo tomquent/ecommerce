@@ -1,0 +1,157 @@
+@CHARSET "UTF-8";
+
+/* GENERAL---------------------------------------------------------- */
+body {
+	background-image:
+		url(#{request.contextPath}/resources/images/fond-site.png);
+}
+
+fieldset {
+	margin: 20px;
+}
+
+.header-style {
+	text-align: center;
+	display: block;
+	border-radius: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 20px;
+	background-color: #EEEED6;
+}
+
+.footer-style {
+	background-color: #AAAAAA;
+	text-align: center;
+	height: 100px;
+	border-radius: 5px;
+	height: 50px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 20px;
+}
+
+.bodytemplate {
+	background-color: #eeeeee;
+	height: auto;
+	border-radius: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.articletemplate {
+	background-color: #FFFFFF;
+	height: auto;
+	border-radius: 5px;
+	padding: 5px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.ui-g, .ui-sm, .ui-md, .ui-lg {
+	padding: 3px;
+}
+
+.ui-g .footerUnit {
+	background-color: #FFFFFF;
+	border-radius: 5px;
+}
+
+.ui-g .operation {
+	padding: 5px;
+	margin: 0px;
+}
+
+.col-1 {
+	width: 8.33%;
+}
+
+.col-2 {
+	width: 16.66%;
+}
+
+.col-3 {
+	width: 25%;
+}
+
+.col-4 {
+	width: 33.33%;
+}
+
+.col-5 {
+	width: 41.66%;
+}
+
+.col-6 {
+	width: 50%;
+}
+
+.col-7 {
+	width: 58.33%;
+}
+
+.col-8 {
+	width: 66.66%;
+}
+
+.col-9 {
+	width: 75%;
+}
+
+.col-10 {
+	width: 83.33%;
+}
+
+.col-11 {
+	width: 91.66%;
+}
+
+.col-12 {
+	width: 100%;
+}
+
+[class*="col-"] {
+	float: left;
+	padding: 15px;
+/* 	border: 1px solid red; */
+}
+
+.row::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+/* ACCUEIL COMMANDE---------------------------------------------------------- */
+.imgAccueil {
+	width: 100%;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align: 50%;
+	border-radius: 15px;
+	box-shadow: 0 0 2px 1px #ffffff;
+}
+
+.spinnerClass {
+	width: 30px;
+}
+
+/* RESPONSIVE ------------------------------------------*/
+@media screen and (max-width: 1200px) {
+	.imgAccueil {
+		display: none
+	}
+	@media screen and (max-width: 992px) {
+		.ui-g .operation {
+			padding: 0px;
+			margin: 0px;
+		}
+	}
+	@media screen and (max-width: 450px) {
+	}
+}

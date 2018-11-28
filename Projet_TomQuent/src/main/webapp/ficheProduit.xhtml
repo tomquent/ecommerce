@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:outputStylesheet library="font-awesome" name="css/font-awesome.css" />
+	<h:outputStylesheet library="css" name="styles.css" />
+	<h:outputScript library="js" name="method.js" />
+	<title>Fiche Produit</title>
+
+</h:head>
+<h:body>
+
+	<ui:composition template="templates/layout.xhtml">
+
+		<ui:define name="header">
+			<div class="header-style">
+				<h:form>
+					<p:menubar>
+						<p:menuitem action="accueilCommande.xhtml" value="Accueil"
+							icon="ui-icon-home" />
+						<p:menuitem action="login.xhtml" value="Quitter"
+							icon="ui-icon-extlink" />
+					</p:menubar>
+				</h:form>
+			</div>
+		</ui:define>
+
+
+		<ui:define name="corps">
+
+			<h:form>
+				<p:growl id="growl" life="3000" autoUpdate="true" showDetail="true" />
+
+
+				<p:fieldset legend="Produit" style="margin-bottom:5px">
+					<h:panelGrid columns="2" margin="20px">
+
+						<h:graphicImage value="#{produitMB.produit.image}"
+							styleClass="imgAccueil" style="height:60%;width:60%" />
+
+						<h:panelGrid columns="2" margin="10px">
+
+							<p:outputLabel value="Catégorie" for="idCategorie" />
+							<h:outputText id="idCategorie"
+								value="#{produitMB.produit.pCategorie.nomCategorie}" />
+
+							<p:outputLabel value="Désignation" for="idDesignation" />
+							<h:outputText id="idDesignation"
+								value="#{produitMB.produit.designation}" />
+
+							<p:outputLabel value="Prix Unitaire" for="idPrix" />
+							<h:outputText id="idPrix" value="#{produitMB.produit.prix} €"
+								required="true" />
+
+							<p:outputLabel value="Description" for="idDescription" />
+							<h:outputText id="idDescription"
+								value="#{produitMB.produit.description}" />
+
+							<p:commandButton value="Retour" action="accueilCommande.xhtml"
+								ajax="false" />
+						</h:panelGrid>
+					</h:panelGrid>
+				</p:fieldset>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+
+
+
+</h:body>
+</html>
