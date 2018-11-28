@@ -2,16 +2,18 @@ package fr.adaming.dao;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
 
 import fr.adaming.model.Client;
 import fr.adaming.model.Commande;
 import fr.adaming.model.Produit;
 
-@Stateless
+
+@Repository
 public class CommandeDaoImpl implements ICommandeDao {
 
 	// association UML en JAVA
