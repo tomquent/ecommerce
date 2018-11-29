@@ -31,6 +31,22 @@ public class ClientMB implements Serializable {
 
 	@ManagedProperty(value="#{prodService}")
 	IProduitService prodService;
+	
+	// Getters et Setters pour l'injection de dépendance des @ManagedProperty	
+	public void setClService(IClientService clService) {
+		this.clService = clService;
+	}
+
+	public void setComService(ICommandeService comService) {
+		this.comService = comService;
+	}
+
+	public void setProdService(IProduitService prodService) {
+		this.prodService = prodService;
+	}
+	
+	
+	
 
 	// Attributs
 	private Client client;

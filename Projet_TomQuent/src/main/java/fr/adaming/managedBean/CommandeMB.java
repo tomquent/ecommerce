@@ -55,6 +55,26 @@ public class CommandeMB implements Serializable {
 	@ManagedProperty(value="#{lcService}")
 	ILigneCommandeService lcService;
 
+	// Getters et Setters pour l'injection de dépendance des @ManagedProperty
+	public void setComService(ICommandeService comService) {
+		this.comService = comService;
+	}
+
+	public void setClService(IClientService clService) {
+		this.clService = clService;
+	}
+
+	public void setProdService(IProduitService prodService) {
+		this.prodService = prodService;
+	}
+
+	public void setLcService(ILigneCommandeService lcService) {
+		this.lcService = lcService;
+	}
+	
+	
+	
+
 	// Attributs
 	private List<LigneCommande> ligneCommande;
 	private LigneCommande lc;
@@ -70,7 +90,7 @@ public class CommandeMB implements Serializable {
 		super();
 	}
 
-	@PostConstruct    // bien de anotation ???
+	@PostConstruct  
 	public void init() {
 		this.session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 		this.ligneCommande = new ArrayList<LigneCommande>();
