@@ -200,7 +200,7 @@ public class UtilisateurMB {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catListe", this.listeCategories);
 
 		// mise de la liste totale de produits dans la session
-		this.listeProduits = pService.getAllProduits();
+		this.listeProduits = prodService.getAllProduits();
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("produitsListe", this.listeProduits);
 
 		return "accueilCommande";
@@ -239,7 +239,7 @@ public class UtilisateurMB {
 		} else if (this.choixView.equals("choixProduits")) {
 
 			// MAJ liste produit all
-			this.listeProduits = pService.getAllProduits();
+			this.listeProduits = prodService.getAllProduits();
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("produitsListe",
 					this.listeProduits);
 			// Affichage ou cache des blocs
@@ -274,7 +274,7 @@ public class UtilisateurMB {
 			// Mise à jour de la liste des produits de la categorie
 			this.categorie.setIdCategorie((Long) event.getNewValue());
 
-			this.listeProduits = pService.getAllProduits(this.categorie);
+			this.listeProduits = prodService.getAllProduits(this.categorie);
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("produitsListe",
 					this.listeProduits);
 
@@ -294,7 +294,7 @@ public class UtilisateurMB {
 		// recuperation de la liste correspondant à la désignation du produit
 		System.out.println(this.produit.getDesignation());
 
-		this.listeProduits = pService.searchProduits(this.produit);
+		this.listeProduits = prodService.searchProduits(this.produit);
 
 		// Verification de la contenance de la liste
 		if (this.listeProduits.size() != 0) {
