@@ -19,7 +19,7 @@ import fr.adaming.model.Produit;
 import fr.adaming.service.ICommandeService;
 import fr.adaming.service.IProduitService;
 
-@ManagedBean
+@ManagedBean(name="panierMB")
 @SessionScoped
 public class PanierMB implements Serializable {
 

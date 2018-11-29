@@ -19,7 +19,7 @@ import fr.adaming.service.ICategorieService;
 import fr.adaming.service.IProduitService;
 import fr.adaming.service.IUtilisateurService;
 
-@ManagedBean
+@ManagedBean(name="utilisateurMB")
 @RequestScoped
 public class UtilisateurMB {
 

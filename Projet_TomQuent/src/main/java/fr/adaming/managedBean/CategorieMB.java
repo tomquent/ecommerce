@@ -18,7 +18,7 @@ import fr.adaming.model.Produit;
 import fr.adaming.service.ICategorieService;
 import fr.adaming.service.IProduitService;
 
-@ManagedBean
+@ManagedBean(name="categorieMB")
 @RequestScoped
 public class CategorieMB implements Serializable {
 

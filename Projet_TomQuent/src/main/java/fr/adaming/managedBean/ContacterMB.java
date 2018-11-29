@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 
 import fr.adaming.util.MailSender;
 
-@ManagedBean
+@ManagedBean(name="contacterMB")
 @RequestScoped
 public class ContacterMB implements Serializable {
 
