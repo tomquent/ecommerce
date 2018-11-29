@@ -24,11 +24,11 @@ import fr.adaming.service.IUtilisateurService;
 public class UtilisateurMB {
 
 //	association UML en JAVA 
-	@ManagedProperty("#{uService}")
-	private IUtilisateurService uService;
+	@ManagedProperty("#{utService}")
+	private IUtilisateurService utService;
 
-	public void setUService(IUtilisateurService uService) {
-		this.uService = uService;
+	public void setUtService(IUtilisateurService utService) {
+		this.utService = utService;
 	}
 
 	@ManagedProperty("#{catService}")
@@ -156,7 +156,7 @@ public class UtilisateurMB {
 	public String seConnecter() {
 		try {
 			// chercher l'utilisateur dans la BD
-			Utilisateur uOut = uService.isExist(this.utilisateur);
+			Utilisateur uOut = utService.isExist(this.utilisateur);
 
 			// recup de la liste de categorie
 			this.listeCategories = catService.getAllCategories();

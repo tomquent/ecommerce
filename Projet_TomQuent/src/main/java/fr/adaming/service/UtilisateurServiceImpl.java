@@ -8,22 +8,25 @@ import org.springframework.transaction.annotation.Transactional;
 import fr.adaming.dao.IUtilisateurDao;
 import fr.adaming.model.Utilisateur;
 
-@Service("uService")
+@Service("utService")
 @Transactional
 public class UtilisateurServiceImpl implements IUtilisateurService {
 
 	//	association UML en JAVA
 	@Autowired
-	IUtilisateurDao uDao;
+	IUtilisateurDao utDao;
 
-	public void setuDao(IUtilisateurDao uDao) {
-		this.uDao = uDao;
+	public void setUtDao(IUtilisateurDao utDao) {
+		this.utDao = utDao;
 	}
+
+
 	
 	// Méthode isExist
 
+
 	@Override
 	public Utilisateur isExist(Utilisateur u) {
-			return uDao.isExist(u);
+			return utDao.isExist(u);
 	}
 }
