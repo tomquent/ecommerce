@@ -26,14 +26,14 @@ public class CategorieMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// association UML en JAVA
-	@ManagedProperty(value = "catService")
+	@ManagedProperty(value = "#{catService}")
 	private ICategorieService catService;
 
 	public void setCatService(ICategorieService catService) {
 		this.catService = catService;
 	}
 
-	@ManagedProperty(value = "prodService")
+	@ManagedProperty(value = "#{prodService}")
 	private IProduitService prodService;
 
 	public void setProdService(IProduitService prodService) {
