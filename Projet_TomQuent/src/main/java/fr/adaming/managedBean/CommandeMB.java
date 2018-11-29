@@ -7,9 +7,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -43,16 +43,16 @@ public class CommandeMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// ASSO UML EN JAVA
-	@EJB
+	@ManagedProperty(value="#{comService}")
 	ICommandeService comService;
 
-	@EJB
+	@ManagedProperty(value="#{clService}")
 	IClientService clService;
 
-	@EJB
+	@ManagedProperty(value="#{prodService}")
 	IProduitService prodService;
-
-	@EJB
+	
+	@ManagedProperty(value="#{lcService}")
 	ILigneCommandeService lcService;
 
 	// Attributs
@@ -70,7 +70,7 @@ public class CommandeMB implements Serializable {
 		super();
 	}
 
-	@PostConstruct
+	@PostConstruct    // bien de anotation ???
 	public void init() {
 		this.session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 		this.ligneCommande = new ArrayList<LigneCommande>();

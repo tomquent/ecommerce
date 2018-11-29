@@ -2,10 +2,10 @@ package fr.adaming.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import fr.adaming.model.Client;
@@ -16,59 +16,84 @@ import fr.adaming.model.Produit;
 @Repository
 public class CommandeDaoImpl implements ICommandeDao {
 
-	// association UML en JAVA
-	@PersistenceContext(unitName = "pu_tq")
-	private EntityManager em;
+	// Transformation de l'association UML en JAVA
+	@Autowired
+	private SessionFactory sf;
+	
+	// Setter pour l'injection de dépendance (même si avec @autowired c'est pas nécessaire normalement)
+	public void setSf(SessionFactory sf) {
+		this.sf = sf;
+	}
 
-	// Méthodes
+	// ****************** Méthodes *****************
 
 	// Méthode getAllCommande
 
 	@Override
 	public List<Commande> getAllCom(Client c) {
-		String req = "SELECT c FROM Commande c WHERE c.client.id=:pIdCl";
-		Query query = em.createQuery(req);
+		Session s = sf.getCurrentSession();
+		
+		// Requete HQL et passage des params
+		String req = "FROM Commande c WHERE c.client.id=:pIdCl";
+		Query query = s.createQuery(req);
+		
 		query.setParameter("pIdCl", c.getId());
-		return query.getResultList();
+		
+		return query.list();
 	}
 
 	// Méthode getCommande
 	@Override
 	public Commande getCom(Commande com) {
-		return em.find(Commande.class, com.getIdCom());
+		Session s = sf.getCurrentSession();
+		
+		// Requete HQL et passage des params
+		String req = "FROM Commande c WHERE c.id=:pId";
+		Query query = s.createQuery(req);
+		query.setParameter("pId", com.getIdCom());
+		
+		return (Commande) query.uniqueResult();
 	}
 
 	// Méthode addCommande
 	@Override
 	public Commande addCom(Commande com) {
-		em.persist(com);
+		Session s =sf.getCurrentSession();
+		
+		s.save(com);
+	
 		return com;
 	}
 
 	// Méthode updateCommande
 	@Override
 	public int updateCom(Commande com) {
-		Commande comExistant = em.find(Commande.class, com.getIdCom());
+		Session s =sf.getCurrentSession();
 		
-		if (comExistant.getIdCom() != 0) {
-			comExistant = com;
-			em.merge(comExistant);
-			return 1;
-		} else {
-			return 0;
-		}
+		// Requete HQL et passage des params
+		String req = "UPDATE Commande c SET c.date=:pDate, c.client=:pClient, c.lignesCommandes=:pLc WHERE c.idCom=:pCId";
+		Query query=s.createQuery(req);		
+
+		query.setParameter("pDate" , com.getDate());    
+		query.setParameter("pClient" , com.getClient());
+		query.setParameter("pLc" , com.getLignesCommandes());
+		query.setParameter("pCId", com.getIdCom());
+		
+		return query.executeUpdate();
 	}
 
 	// Méthode deleteCommande
 	@Override
 	public int deleteCom(Commande com) {
-		Commande comOut = em.find(Commande.class, com.getIdCom());
-		if (comOut.getIdCom() != 0) {
-			em.remove(comOut);
-			return 1;
-		} else {
-			return 0;
-		}
+		Session s =sf.getCurrentSession();
+		
+		// Requete HQL (et donc Query de HQL!!) et passage des params // REQUETE HQL obligatoire pour delete CAR s.delete retourne void donc on peut pas savoir si il le fait
+		String req="DELETE Commande c WHERE c.idCom=:pCId";
+		Query query=s.createQuery(req);		
+
+		query.setParameter("pCId" , com.getIdCom());  
+
+		return query.executeUpdate();
 	}
 
 }
