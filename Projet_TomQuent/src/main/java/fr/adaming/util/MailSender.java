@@ -76,5 +76,55 @@ public class MailSender implements Serializable {
 		}
 
 	}
+	
+	public void sendMailAdmin(String toMail, String subject, String msg) {
+
+		final String username = "michalbebert@gmail.com";
+		final String password = "playre258!";		//gerantproxybanque00
+
+		Properties props = new Properties();
+
+		props.put("mail.smtp.auth", true);
+		props.put("mail.smtp.starttls.enable", true);
+		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+		try {
+//			Configuration
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(username));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toMail));
+			
+			Multipart multipart = new MimeMultipart();
+
+			message.setSubject(subject);	
+
+			MimeBodyPart textPart = new MimeBodyPart();
+
+			String final_Text = msg;
+			
+			textPart.setText(final_Text);
+			
+			multipart.addBodyPart(textPart);
+				
+			message.setContent(multipart);
+			Transport.send(message);
+			
+			
+			System.out.println("Sent message successfully....");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 }

@@ -150,7 +150,7 @@
 						</p:fieldset>
 
 
-						<!-- ESPACE Choix produit par categorie, tous les produits ou recherche___________________________________ -->
+						<!-- ESPACE Choix produit par categorie, tous les produits ou recherche__________________ -->
 
 						<p:fieldset styleClass="ui-g-12" legend="Choix par Produits"
 							rendered="#{sessionScope.choixViewProduits}">
@@ -164,9 +164,14 @@
 									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
 									paginator="true" rows="10" style="margin-top:20px">
 
-									<p:column headerText="Id">
+									<p:column headerText="Categorie">
+										<h:outputText value="#{pdt.pCategorie.nomCategorie}" />
+									</p:column>
+									
+									<p:column headerText="Id Produit">
 										<h:outputText value="#{pdt.idProduit}" />
 									</p:column>
+									
 									<p:column headerText="Designation">
 										<h:outputText value="#{pdt.designation}" />
 									</p:column>
