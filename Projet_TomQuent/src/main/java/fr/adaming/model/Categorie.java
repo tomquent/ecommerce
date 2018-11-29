@@ -45,7 +45,7 @@ public class Categorie implements Serializable {
 	private String description;
 
 	// Association
-	@OneToMany(mappedBy = "pCategorie", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "pCategorie", cascade = { CascadeType.ALL })
 	List<Produit> listeProduits;
 
 	@ManyToMany(cascade = CascadeType.ALL)

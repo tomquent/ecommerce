@@ -19,7 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-@Entity(name = "Produit")
+@Entity
 @Table(name = "produits")
 public class Produit implements Serializable {
 

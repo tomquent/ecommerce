@@ -20,7 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 
-@Entity(name="Commande")
+@Entity
 @Table(name = "commandes")
 public class Commande implements Serializable {
 
@@ -43,7 +43,7 @@ public class Commande implements Serializable {
 	private Client client;
 
 	// la classe maître est Produit
-	@OneToMany(mappedBy ="commande",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy ="commande")
 	private List<LigneCommande> lignesCommandes;
 
 	// Constructeurs

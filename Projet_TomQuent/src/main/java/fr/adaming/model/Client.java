@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name="clients")
 public class Client implements Serializable {
@@ -36,7 +37,7 @@ public class Client implements Serializable {
 	
 	
 	//Transformation de l'asso UML en JAVA
-	@OneToMany(mappedBy="client",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="client", cascade=CascadeType.ALL)
 	private List<Commande> listeCom;
 
 

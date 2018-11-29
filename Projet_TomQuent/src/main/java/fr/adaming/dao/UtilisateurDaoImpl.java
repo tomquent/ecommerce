@@ -30,6 +30,7 @@ public class UtilisateurDaoImpl implements IUtilisateurDao {
 
 		String req = "FROM Utilisateur u WHERE u.mail=:pMail AND u.mdp=:pMdp";
 		Query query = s.createQuery(req);
+		System.out.println(u.getMail());
 		query.setParameter("pMail", u.getMail());
 		query.setParameter("pMdp", u.getMdp());
 		return (Utilisateur) query.uniqueResult();

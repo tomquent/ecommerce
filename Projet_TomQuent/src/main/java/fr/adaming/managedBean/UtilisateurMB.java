@@ -19,7 +19,7 @@ import fr.adaming.service.ICategorieService;
 import fr.adaming.service.IProduitService;
 import fr.adaming.service.IUtilisateurService;
 
-@ManagedBean(name="utilisateurMB")
+@ManagedBean(name = "utilisateurMB")
 @RequestScoped
 public class UtilisateurMB {
 
@@ -42,7 +42,7 @@ public class UtilisateurMB {
 	private IProduitService prodService;
 
 	public void setProdService(IProduitService prodService) {
-		this.prodService= prodService;
+		this.prodService = prodService;
 	}
 
 //	Attributs
@@ -62,14 +62,15 @@ public class UtilisateurMB {
 //	Constructeur vide
 	public UtilisateurMB() {
 		super();
-	}
-
-	@PostConstruct
-	public void init() {
 		this.utilisateur = new Utilisateur();
 		this.maSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		this.categorie = new Categorie();
 		this.produit = new Produit();
+	}
+
+	@PostConstruct
+	public void init() {
+
 	}
 
 //	G&S
@@ -154,25 +155,26 @@ public class UtilisateurMB {
 	// se connecter
 
 	public String seConnecter() {
-		try {
-			// chercher l'utilisateur dans la BD
-			Utilisateur uOut = utService.isExist(this.utilisateur);
+		// chercher l'utilisateur dans la BD
+		Utilisateur uOut = utService.isExist(this.utilisateur);
 
+		if (uOut != null) {
 			// recup de la liste de categorie
-			this.listeCategories = catService.getAllCategories();
+			// this.listeCategories = catService.getAllCategories();
 
 			// mise de l'utilisateur et de la liste dans la session
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uSession", uOut);
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catListe",
-					this.listeCategories);
+			// FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catListe",
+			// this.listeCategories);
 
 			return "accueilGestionAdmin";
 
-		} catch (Exception e) {
+		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage("Le login ou le mot de passe n'est pas valide"));
+			return "login";
 		}
-		return "login";
+
 	}
 
 	// se déconnecter

@@ -32,7 +32,7 @@ public class Utilisateur implements Serializable {
 	private String mdp;
 
 	//Association UML en JAVA
-	@ManyToMany(mappedBy="listeUtilisateurs",targetEntity=Categorie.class)
+	@ManyToMany(mappedBy="listeUtilisateurs")
 	List<Categorie> listeCategories;
 	
 	//	Constructeurs d'entité
