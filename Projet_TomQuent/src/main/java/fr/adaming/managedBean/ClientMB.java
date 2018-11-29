@@ -22,6 +22,9 @@ import fr.adaming.service.IProduitService;
 @RequestScoped
 public class ClientMB implements Serializable {
 
+	// Clé réseau
+	private static final long serialVersionUID = 1L;
+
 	// Asso UML en JAVA
 	@ManagedProperty(value="#{clService}")
 	IClientService clService;
@@ -58,6 +61,10 @@ public class ClientMB implements Serializable {
 	// Constructeurs
 	public ClientMB() {
 		super();
+		this.client = new Client();
+		this.session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+		this.client = (Client) session.getAttribute("sessionClient");
+		// !!! ligne du dessus, que si le client existe ??
 	}
 
 	@PostConstruct
@@ -116,7 +123,7 @@ public class ClientMB implements Serializable {
 			return "accueilCommande";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("Vous n'avez pas pu vous ajouter, retenter !"));
+					new FacesMessage("Vous n'avez pas pu vous ajouter, retenter ça devrait marcher !"));
 			return "ajoutClient";
 		}
 	}

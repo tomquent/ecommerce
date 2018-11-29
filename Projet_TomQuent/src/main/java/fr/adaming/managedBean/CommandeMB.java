@@ -88,6 +88,12 @@ public class CommandeMB implements Serializable {
 	// Constructeurs
 	public CommandeMB() {
 		super();
+		this.session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+		this.ligneCommande = new ArrayList<LigneCommande>();
+		this.lc = new LigneCommande();
+		this.produitsListe = new ArrayList<Produit>();
+		this.client = (Client) session.getAttribute("clientSession");
+		this.commande = new Commande();
 	}
 
 	@PostConstruct  
@@ -176,7 +182,8 @@ public class CommandeMB implements Serializable {
 		Date date = new Date();
 		date.getTime();
 		this.commande.setDate(date);
-		this.commande.setClient((Client) session.getAttribute("clientSession"));
+		//Client client = (Client) session.getAttribute("clientSession");
+		this.commande.setClient(this.client = (Client) session.getAttribute("clientSession"));
 
 		// vérification de la présence d'un client en session
 		if (this.commande.getClient().getId() != 0) {

@@ -11,7 +11,7 @@ import fr.adaming.dao.ICommandeDao;
 import fr.adaming.model.Client;
 import fr.adaming.model.Commande;
 
-@Service("coService")
+@Service("comService")
 @Transactional
 public class CommandeServiceImpl implements ICommandeService {
 	

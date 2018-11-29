@@ -34,8 +34,8 @@ public class CategorieDaoImpl implements ICategorieDao {
 		String req = "FROM Categorie c";
 		Query query = s.createQuery(req);
 
-		List<Categorie> liste = (List<Categorie>) query.uniqueResult();
-		for (Categorie cat : liste) {
+		List<Categorie> liste = (List<Categorie>) query.list();
+		for (Categorie cat:liste) {
 			cat.setImage("data:image/png;base64," + Base64.encodeBase64String(cat.getPhoto()));
 		}
 		return liste;

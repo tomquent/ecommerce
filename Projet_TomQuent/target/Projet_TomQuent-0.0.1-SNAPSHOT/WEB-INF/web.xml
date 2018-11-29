@@ -8,6 +8,7 @@
 <listener>
 <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 </listener>
+
 	<!-- Spécifier la phase du projet -->
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>

@@ -27,6 +27,7 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
 
 	@Override
 	public Utilisateur isExist(Utilisateur u) {
-			return utDao.isExist(u);
+//		System.out.println("je suis dans service");
+		return utDao.isExist(u);
 	}
 }

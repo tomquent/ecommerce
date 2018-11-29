@@ -42,9 +42,9 @@
 							<p:password id="idMdp" value="#{utilisateurMB.utilisateur.mdp}"
 								required="true" display="icon" />
 							<p:message for="idMdp" showDetail="true" display="icon" />
-
-							<p:commandButton value="Gestion de l'admin"
-								action="#{utilisateurMB.seConnecter}" ajax="false" />
+							
+							<h:commandButton value="Gestion de l'admin"
+								action="#{utilisateurMB.seConnecter}"  />
 						</h:panelGrid>
 					</h:form>
 				</p:fieldset>

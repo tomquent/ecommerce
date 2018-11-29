@@ -1,5 +1,6 @@
 package fr.adaming.managedBean;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -21,30 +22,32 @@ import fr.adaming.service.IUtilisateurService;
 
 @ManagedBean(name = "utilisateurMB")
 @RequestScoped
-public class UtilisateurMB {
+public class UtilisateurMB implements Serializable {
 
 //	association UML en JAVA 
-	@ManagedProperty("#{utService}")
+	@ManagedProperty(value="#{utService}")
 	private IUtilisateurService utService;
-
+	
+	
 	public void setUtService(IUtilisateurService utService) {
 		this.utService = utService;
 	}
 
-	@ManagedProperty("#{catService}")
+	@ManagedProperty(value="#{catService}")
 	private ICategorieService catService;
 
 	public void setCatService(ICategorieService catService) {
 		this.catService = catService;
 	}
 
-	@ManagedProperty("#{prodService}")
+	@ManagedProperty(value="#{prodService}")
 	private IProduitService prodService;
 
 	public void setProdService(IProduitService prodService) {
 		this.prodService = prodService;
 	}
 
+	
 //	Attributs
 	private Utilisateur utilisateur;
 	private List<Categorie> listeCategories;
@@ -70,8 +73,8 @@ public class UtilisateurMB {
 
 	@PostConstruct
 	public void init() {
-
 	}
+	
 
 //	G&S
 
@@ -155,17 +158,19 @@ public class UtilisateurMB {
 	// se connecter
 
 	public String seConnecter() {
+//		System.out.println("le mail de this.utilisateur est " +this.utilisateur.getMail());
 		// chercher l'utilisateur dans la BD
 		Utilisateur uOut = utService.isExist(this.utilisateur);
-
+		
+//		System.out.println("le mail de uOut est " +uOut.getMail());
 		if (uOut != null) {
 			// recup de la liste de categorie
-			// this.listeCategories = catService.getAllCategories();
+			 this.listeCategories = catService.getAllCategories();
 
 			// mise de l'utilisateur et de la liste dans la session
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uSession", uOut);
-			// FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catListe",
-			// this.listeCategories);
+			 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catListe",
+			 this.listeCategories);
 
 			return "accueilGestionAdmin";
 
