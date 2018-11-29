@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:outputStylesheet library="font-awesome" name="css/font-awesome.css" />
+	<h:outputStylesheet library="css" name="styles.css" />
+	<h:outputScript library="js" name="method.js" />
+	<title>Authentification client</title>
+
+</h:head>
+<h:body>
+
+	<ui:composition template="/templates/layout.xhtml">
+
+		<!-- HEADER _________________________________________________ -->
+
+
+		<ui:define name="header">
+			<div class="header-style">
+				<h:form>
+					<p:menubar>
+						<p:menuitem action="#{utilisateurMB.deconnecter}" value="Quitter"
+							icon="ui-icon-extlink" />
+					</p:menubar>
+				</h:form>
+			</div>
+		</ui:define>
+
+		<ui:define name="corps">
+
+			<p:growl id="growl" life="3000" autoUpdate="true" showDetail="true" />
+
+			<p:fieldset styleClass="ui-g bodytemplate">
+
+				<h:form>
+					<h:panelGrid columns="3" margin="10px" layout="grid">
+
+						<p:outputLabel value="Mail" for="idMail" />
+						<p:inputText id="idMail" value="#{clMB.client.mail}"
+							required="true" />
+						<p:message for="idMail" showDetail="true" display="icon" />
+
+						<p:outputLabel value="Identifiant" for="idId" />
+						<p:inputText id="idId" value="#{clMB.client.id}"
+							required="true" display="icon" />
+						<p:message for="idId" showDetail="true" display="icon" />
+
+						<p:commandButton value="S'authentifier"
+							action="#{clMB.authentificationClient}" ajax="false" />
+					</h:panelGrid>
+				</h:form>
+			</p:fieldset>
+		</ui:define>
+
+	</ui:composition>
+
+
+</h:body>
+</html>

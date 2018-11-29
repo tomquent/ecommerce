@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:outputStylesheet library="font-awesome" name="css/font-awesome.css" />
+	<h:outputStylesheet library="css" name="styles.css" />
+	<h:outputScript library="js" name="method.js" />
+	<title>Récapitulatif de commande</title>
+
+</h:head>
+<h:body>
+
+	<ui:composition template="templates/layout.xhtml">
+
+		<!-- HEADER _________________________________________________ -->
+
+
+		<ui:define name="header">
+			<div class="header-style">
+				<h:form>
+					<p:menubar>
+						<p:menuitem action="accueilCommande.xhtml" value="Accueil"
+							icon="ui-icon-home" />
+						<p:menuitem action="#{utilisateurMB.deconnecter}" value="Quitter"
+							icon="ui-icon-extlink" />
+					</p:menubar>
+				</h:form>
+			</div>
+		</ui:define>
+
+		<!-- CORPS _________________________________________________ -->
+
+		<ui:define name="corps">
+
+			<p:growl id="growl" life="3000" autoUpdate="true" showDetail="true" />
+
+			<div class="ui-g bodytemplate">
+
+				<h:form>
+					<!-- INFO CLIENT _________________________________________________ -->
+					<p:fieldset legend="Vos infos">
+
+						<p:dataTable scrollWidth="100%"
+							tableStyle="width:auto; margin-left:auto; margin-right:auto;"
+							id="dataTableClient" var="cl"
+							value="#{sessionScope.clientSession}">
+
+							<p:column headerText="Id">
+								<h:outputText value="#{cl.id}" />
+							</p:column>
+
+							<p:column headerText="Nom">
+								<h:outputText value="#{cl.nom}" />
+							</p:column>
+
+							<p:column headerText="Adresse">
+								<h:outputText value="#{cl.adresse}" />
+							</p:column>
+
+							<p:column headerText="Mail">
+								<h:outputText value="#{cl.mail}" />
+							</p:column>
+
+							<p:column headerText="Téléphone">
+								<h:outputText value="#{cl.tel}" />
+							</p:column>
+
+						</p:dataTable>
+
+					</p:fieldset>
+
+					<!-- PANIER _________________________________________________ -->
+
+					<p:fieldset legend="Votre commande">
+
+						<p:dataTable scrollWidth="100%"
+							tableStyle="width:auto; margin-left:auto; margin-right:auto;"
+							id="dataTableProduits" var="pdt"
+							value="#{panierMB.produitsListeTampon}"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
+							paginator="true" rows="10" style="margin-top:20px">
+
+							<p:column headerText="Id">
+								<h:outputText value="#{pdt.idProduit}" />
+							</p:column>
+							<p:column headerText="Designation">
+								<h:outputText value="#{pdt.designation}" />
+							</p:column>
+
+							<p:column headerText="Image">
+								<h:graphicImage value="#{pdt.image}"
+									style="width:110px;height:100px;padding:3px;" />
+							</p:column>
+
+							<p:column headerText="Description">
+								<h:outputText value="#{pdt.description}" />
+							</p:column>
+
+							<p:column headerText="Prix Unitaire">
+								<h:outputText value="#{pdt.prix}" />
+							</p:column>
+
+							<p:column headerText="Quantité désiré">
+								<h:outputText value="#{pdt.quantite}" />
+							</p:column>
+
+					</p:fieldset>
+
+					<!-- Retour accueilCommande _________________________________________________ -->
+
+					<p:commandButton action="#{coMB.retourRecap}" value="Retour"
+						style="float:right" />
+
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+
+
+</h:body>
+</html>
