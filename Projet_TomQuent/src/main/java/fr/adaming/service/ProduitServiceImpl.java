@@ -17,7 +17,7 @@ public class ProduitServiceImpl implements IProduitService {
 	// association UML en JAVA
 	@Autowired
 	private IProduitDao pDao;
-	
+
 	public void setpDao(IProduitDao pDao) {
 		this.pDao = pDao;
 	}
@@ -38,12 +38,8 @@ public class ProduitServiceImpl implements IProduitService {
 	// Méthode getProduit
 	@Override
 	public Produit getProduit(Produit p, Categorie cat) {
-		Produit pOut = pDao.getProduit(p);
-		if (pOut.getpCategorie().getIdCategorie() == cat.getIdCategorie()) {
-			return pOut;
-		} else {
-			return null;
-		}
+		p.setpCategorie(cat);
+		return pDao.getProduit(p);
 	}
 
 	// Méthode searchProduitWithName
@@ -63,17 +59,8 @@ public class ProduitServiceImpl implements IProduitService {
 	// Méthode updateProduit
 	@Override
 	public int updateProduit(Produit p, Categorie cat) {
-		Produit pDB = this.getProduit(p, cat);
-		if (pDB != null) {
-			p.setpCategorie(cat);
-			if (pDao.updateProduit(p) != 0) {
-				return pDao.updateProduit(p);
-			} else {
-				return pDao.updateProduit(p);
-			}
-		} else {
-			return 0;
-		}
+		p.setpCategorie(cat);
+		return pDao.updateProduit(p);
 	}
 
 	// Méthode deleteProduit

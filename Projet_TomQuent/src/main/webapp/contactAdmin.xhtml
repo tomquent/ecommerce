@@ -17,7 +17,7 @@
 	<p:panel>
 		<ui:composition template="templates/layout.xhtml">
 			<ui:define name="corps">
-				<fieldset title="Contacter le gérant">
+				<fieldset title="Contacter l'administrateur">
 					<div class="ui-g bodytemplate">
 						<h:form>
 
@@ -43,7 +43,7 @@
 							<br />
 							<p:commandButton icon="fa fa-share-square"
 								value="Envoyer le message"
-								action="#{contacterMB.contacterGerant}">
+								action="#{contacterMB.contacterAdmin}">
 								<p:confirm header="Confirmation"
 									message="Êtes-vous sûr(e) de votre message ?" />
 							</p:commandButton>
