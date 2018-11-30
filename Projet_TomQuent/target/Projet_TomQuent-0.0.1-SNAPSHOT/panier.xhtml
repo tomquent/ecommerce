@@ -61,6 +61,10 @@
 							<p:column headerText="Prix Unitaire">
 								<h:outputText value="#{pdt.prix}" />
 							</p:column>
+							
+							<p:column headerText="Quantité Disponible">
+								<h:outputText value="#{pdt.quantite}" />
+							</p:column>
 
 							<p:column headerText="Quantité désiré">
 								<p:spinner min="0" max="#{pdt.quantite}" value="#{lcMB.lc.quantite}" />

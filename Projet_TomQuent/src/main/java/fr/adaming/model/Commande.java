@@ -43,7 +43,7 @@ public class Commande implements Serializable {
 	private Client client;
 
 	// la classe maître est Produit
-	@OneToMany(mappedBy ="commande")
+	@OneToMany(mappedBy ="commande", fetch=FetchType.EAGER)
 	private List<LigneCommande> lignesCommandes;
 
 	// Constructeurs

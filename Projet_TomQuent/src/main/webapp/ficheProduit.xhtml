@@ -24,6 +24,8 @@
 							icon="ui-icon-home" />
 						<p:menuitem action="login.xhtml" value="Quitter"
 							icon="ui-icon-extlink" />
+						<p:menuitem action="#{clMB.espaceClient}" style="float:right"
+							value="Espace Client" icon="fa fa-adress-book-o" />
 					</p:menubar>
 				</h:form>
 			</div>
@@ -60,8 +62,6 @@
 							<h:outputText id="idDescription"
 								value="#{produitMB.produit.description}" />
 
-							<p:commandButton value="Retour" action="accueilCommande.xhtml"
-								ajax="false" />
 						</h:panelGrid>
 					</h:panelGrid>
 				</p:fieldset>

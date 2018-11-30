@@ -40,7 +40,7 @@
 
 			<div class="ui-g bodytemplate">
 
-				<h:form>
+				<h:form id="recapitulatif">
 					<!-- INFO CLIENT _________________________________________________ -->
 					<p:fieldset legend="Vos infos">
 
@@ -92,8 +92,11 @@
 							</p:column>
 
 							<p:column headerText="Image">
-								<h:graphicImage value="#{pdt.image}"
-									style="width:110px;height:100px;padding:3px;" />
+								<p:commandButton icon="fa fa-search-plus"
+									action="#{produitMB.lienProduitView}" ajax="false">
+									<f:setPropertyActionListener value="#{pdt}"
+										target="#{produitMB.produit}" />
+								</p:commandButton>
 							</p:column>
 
 							<p:column headerText="Description">
@@ -110,6 +113,14 @@
 						</p:dataTable>
 
 					</p:fieldset>
+
+					<!-- Impression _________________________________________________ -->
+				</h:form>
+				<h:form>
+					<p:commandButton value="Imprimer" type="button" icon="fa fa-print"
+						style="display:block;margin-bottom: 20px">
+						<p:printer target="recapitulatif" />
+					</p:commandButton>
 
 					<!-- Retour accueilCommande _________________________________________________ -->
 

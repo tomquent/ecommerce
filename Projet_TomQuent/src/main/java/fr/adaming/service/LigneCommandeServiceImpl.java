@@ -1,11 +1,13 @@
 package fr.adaming.service;
 
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.adaming.dao.ILigneCommandeDao;
+import fr.adaming.model.Commande;
 import fr.adaming.model.LigneCommande;
 
 @Service("lcService")
@@ -20,17 +22,21 @@ public class LigneCommandeServiceImpl implements ILigneCommandeService {
 		this.lcDao = lcDao;
 	}
 
-	
-	
-	
 //	Méthodes 
 
 //	méthode d'ajout de la ligne de commande
 
 	@Override
 	public LigneCommande addLigneCommande(LigneCommande lc) {
-		
+
 		return lcDao.addLigneCommande(lc);
+	}
+
+//	méthode dde recherche des lignescommandes d'une commande
+
+	@Override
+	public List<LigneCommande> getListeLignesCommandes(Commande c) {
+		return lcDao.getListeLignesCommandes(c);
 	}
 
 }

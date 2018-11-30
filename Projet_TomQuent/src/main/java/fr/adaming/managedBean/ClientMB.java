@@ -14,8 +14,11 @@ import javax.servlet.http.HttpSession;
 
 import fr.adaming.model.Client;
 import fr.adaming.model.Commande;
+import fr.adaming.model.LigneCommande;
+import fr.adaming.model.Produit;
 import fr.adaming.service.IClientService;
 import fr.adaming.service.ICommandeService;
+import fr.adaming.service.ILigneCommandeService;
 import fr.adaming.service.IProduitService;
 
 @ManagedBean(name = "clMB")
@@ -32,6 +35,9 @@ public class ClientMB implements Serializable {
 	@ManagedProperty(value = "#{comService}")
 	ICommandeService comService;
 
+	@ManagedProperty(value ="#{lcService}")
+	ILigneCommandeService lcService;
+	
 	@ManagedProperty(value = "#{prodService}")
 	IProduitService prodService;
 
@@ -44,6 +50,10 @@ public class ClientMB implements Serializable {
 		this.comService = comService;
 	}
 
+	public void setLcService(ILigneCommandeService lcService) {
+		this.lcService = lcService;
+	}
+
 	public void setProdService(IProduitService prodService) {
 		this.prodService = prodService;
 	}
@@ -53,6 +63,7 @@ public class ClientMB implements Serializable {
 	private boolean viewClient = false;
 	private Commande commande;
 	private List<Commande> listeCommandesActuelles;
+	private List<LigneCommande> listeLignesCommande;
 	HttpSession session;
 
 	// Constructeurs
@@ -74,6 +85,7 @@ public class ClientMB implements Serializable {
 			this.client = new Client();
 			this.listeCommandesActuelles = new ArrayList<Commande>();
 		}
+		this.listeLignesCommande = new ArrayList<LigneCommande>();
 	}
 
 	// Getters et setters
@@ -91,6 +103,15 @@ public class ClientMB implements Serializable {
 
 	public void setCommande(Commande commande) {
 		this.commande = commande;
+	}
+
+
+	public List<LigneCommande> getListeLignesCommande() {
+		return listeLignesCommande;
+	}
+
+	public void setListeLignesCommande(List<LigneCommande> listeLignesCommande) {
+		this.listeLignesCommande = listeLignesCommande;
 	}
 
 	public List<Commande> getListeCommandesActuelles() {
@@ -215,7 +236,6 @@ public class ClientMB implements Serializable {
 	// Méthode accès Espace Client
 
 	public String espaceClient() {
-
 		if (this.client != null) {
 			if (comService.getAllCom(this.client).size() != 0) {
 				this.listeCommandesActuelles = comService.getAllCom(this.client);
@@ -229,6 +249,12 @@ public class ClientMB implements Serializable {
 			return "accueilCommande";
 		}
 
+	}
+	
+	public void onRowToggle() {
+		//recuperation des lignes de commandes de la commande à visualiser
+
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("viewDetail", true);
 	}
 
 }
