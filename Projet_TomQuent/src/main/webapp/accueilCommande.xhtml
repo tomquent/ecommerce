@@ -42,7 +42,7 @@
 			<div class="ui-g bodytemplate">
 
 				<!-- ESPACE MENU _________________________________________________ -->
-				<p:fieldset styleClass="ui-g-3 articletemplate">
+				<p:fieldset styleClass="col-2 articletemplate">
 					<h:form>
 						<h2>Menu</h2>
 						<p:megaMenu orientation="vertical">
@@ -82,13 +82,13 @@
 
 				<!-- ESPACE CHOIX PRODUIT _________________________________________________ -->
 
-				<p:fieldset id="zoneSelection" styleClass="ui-g-9 articletemplate">
+				<p:fieldset id="zoneSelection" styleClass="col-9 articletemplate">
 
 					<div class="ui-g bodytemplate">
 
 						<!-- ESPACE Type de selection_________________________________________________ -->
 
-						<p:fieldset styleClass="ui-g-12"
+						<p:fieldset styleClass="col-12"
 							legend="Choix de sélection des produits"
 							rendered="#{sessionScope.viewCommande}">
 							<p:panelGrid columns="1">
@@ -112,7 +112,7 @@
 						<!-- ESPACE Choix produit par Categorie _________________________________________________ -->
 
 
-						<p:fieldset styleClass="ui-g-12" legend="Choix par Categorie"
+						<p:fieldset styleClass="col-12" legend="Choix par Categorie"
 							rendered="#{sessionScope.choixViewCategories}">
 							<p:panelGrid columns="2">
 
@@ -132,10 +132,10 @@
 
 						</p:fieldset>
 
-						<!-- ESPACE Choix produit par Categorie _________________________________________________ -->
+						<!-- ESPACE Choix produit par Categorie ______________________________ -->
 
 
-						<p:fieldset styleClass="ui-g-12" legend="Recherche"
+						<p:fieldset styleClass="col-12" legend="Recherche"
 							rendered="#{sessionScope.choixViewRecherche}">
 							<p:panelGrid columns="3">
 								<h:form>
@@ -152,7 +152,7 @@
 
 						<!-- ESPACE Choix produit par categorie, tous les produits ou recherche__________________ -->
 
-						<p:fieldset styleClass="ui-g-12" legend="Choix par Produits"
+						<p:fieldset styleClass="col-12" legend="Choix par Produits"
 							rendered="#{sessionScope.choixViewProduits}">
 							<h:form>
 								<p:dataTable scrollWidth="100%"
@@ -225,7 +225,7 @@
 
 
 
-				<!-- FENETRE DE DIALOGUE _________________________________________________ -->
+				<!-- FENETRE DE DIALOGUE _____________________________________________ -->
 
 
 				<h:form>
