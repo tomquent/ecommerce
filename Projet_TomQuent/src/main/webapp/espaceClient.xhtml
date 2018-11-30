@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:outputStylesheet library="font-awesome" name="css/font-awesome.css" />
+	<h:outputStylesheet library="css" name="styles.css" />
+	<h:outputScript library="js" name="method.js" />
+	<title>Espace Client</title>
+
+</h:head>
+<h:body>
+	<ui:composition template="templates/layout.xhtml">
+
+		<ui:define name="header">
+
+			<div class="header-style">
+				<h:form>
+					<p:menubar>
+						<p:menuitem action="accueilCommande.xhtml" value="Accueil"
+							icon="ui-icon-home" />
+						<p:menuitem action="#{utilisateurMB.deconnecter}" value="Quitter"
+							icon="ui-icon-extlink" />
+
+						<p:menuitem action="#{utilisateurMB.espaceClient}" style="float:right" value="Espace Client"
+							icon="fa fa-adresse-book-o" />
+					</p:menubar>
+				</h:form>
+			</div>
+
+		</ui:define>
+
+
+
+
+	</ui:composition>
+
+
+</h:body>
+</html>
