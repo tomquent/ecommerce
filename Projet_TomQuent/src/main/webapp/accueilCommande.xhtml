@@ -200,6 +200,10 @@
 												target="#{produitMB.produit}" />
 										</p:commandButton>
 									</p:column>
+									
+									<p:column headerText="Quantité désiré">
+											<p:spinner min="0" max="#{pdt.quantite}" value="#{pdt.quantiteDesire}" />
+									</p:column>
 
 
 

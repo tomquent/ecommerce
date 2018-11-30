@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:outputStylesheet library="font-awesome" name="css/font-awesome.css" />
+	<h:outputStylesheet library="css" name="styles.css" />
+	<h:outputScript library="js" name="method.js" />
+	<title>Page de login</title>
+
+</h:head>
+<h:body>
+
+	<ui:composition template="/templates/layout.xhtml">
+
+		<ui:define name="header">
+			<h:panelGroup layout="block" class="header-style">
+				<h:outputText style="font-size:40px;"
+					value="Bienvenue sur notre site TomQuent : le E-Commerce du turfu" />
+			</h:panelGroup>
+		</ui:define>
+
+		<ui:define name="corps">
+
+			<p:growl id="growl" life="3000" autoUpdate="true" showDetail="true" />
+
+			<div class="ui-g bodytemplate">
+				<p:fieldset styleClass="ui-g-6 articletemplate">
+
+					<h:form>
+						<h:panelGrid columns="3" margin="10px" layout="grid">
+
+							<p:outputLabel value="Mail" for="idMail" />
+							<p:inputText id="idMail"
+								value="#{utilisateurMB.utilisateur.mail}" required="true" />
+							<p:message for="idMail" showDetail="true" display="icon" />
+
+							<p:outputLabel value="Mot de passe" for="idMdp" />
+							<p:password id="idMdp" value="#{utilisateurMB.utilisateur.mdp}"
+								required="true" display="icon" />
+							<p:message for="idMdp" showDetail="true" display="icon" />
+							
+							<h:commandButton value="Gestion de l'admin"
+								action="#{utilisateurMB.seConnecter}"  />
+						</h:panelGrid>
+					</h:form>
+				</p:fieldset>
+
+				<p:fieldset styleClass="ui-g-6 articletemplate">
+					<h:form>
+						<p:commandButton value="Site E-Ecommerce"
+							action="#{utilisateurMB.lienAccueilCommande}" ajax="false" />
+						<br />
+					</h:form>
+					<h:outputText value="Bienvenue sur le site TomQuent"/>
+				</p:fieldset>
+			</div>
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
