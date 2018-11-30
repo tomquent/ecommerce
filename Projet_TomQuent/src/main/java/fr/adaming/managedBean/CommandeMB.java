@@ -76,12 +76,14 @@ public class CommandeMB implements Serializable {
 	
 
 	// Attributs
-	private List<LigneCommande> ligneCommande;
+	private List<LigneCommande> listeLignesCommandes;
 	private LigneCommande lc;
 	private Commande commande;
 	private Client client;
 	private List<Produit> produitsListe;
 	HttpSession session;
+	
+	private int quantDesir;
 
 	private boolean viewCommande = true;
 
@@ -89,7 +91,7 @@ public class CommandeMB implements Serializable {
 	public CommandeMB() {
 		super();
 		this.session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-		this.ligneCommande = new ArrayList<LigneCommande>();
+		this.listeLignesCommandes = new ArrayList<LigneCommande>();
 		this.lc = new LigneCommande();
 		this.produitsListe = new ArrayList<Produit>();
 		this.client = (Client) session.getAttribute("clientSession");
@@ -99,7 +101,7 @@ public class CommandeMB implements Serializable {
 	@PostConstruct  
 	public void init() {
 		this.session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-		this.ligneCommande = new ArrayList<LigneCommande>();
+		this.listeLignesCommandes = new ArrayList<LigneCommande>();
 		this.lc = new LigneCommande();
 		this.produitsListe = new ArrayList<Produit>();
 		this.client = (Client) session.getAttribute("clientSession");
@@ -148,12 +150,12 @@ public class CommandeMB implements Serializable {
 		this.commande = commande;
 	}
 
-	public List<LigneCommande> getLigneCommande() {
-		return ligneCommande;
+	public List<LigneCommande> getListeLignesCommandes() {
+		return listeLignesCommandes;
 	}
 
-	public void setLigneCommande(List<LigneCommande> ligneCommande) {
-		this.ligneCommande = ligneCommande;
+	public void setListeLignesCommandes(List<LigneCommande> listeLignesCommandes) {
+		this.listeLignesCommandes = listeLignesCommandes;
 	}
 
 	// METHODES******************************************************
@@ -190,17 +192,19 @@ public class CommandeMB implements Serializable {
 
 			// ajout de la commande dans la DB
 			this.commande = comService.addCom(this.commande, this.commande.getClient());
-
+			
 			if (this.commande.getIdCom() != 0) {
 
-				for (int i = 0; i < this.ligneCommande.size(); i++) {
-					double quantite = this.ligneCommande.get(i).getQuantite();
-					double prix = this.ligneCommande.get(i).getProduit().getPrix() * quantite;
-					this.lc = new LigneCommande(quantite, prix);
-					this.lc.setCommande(this.commande);
-					//this.lc.setProduit(this.produitsListe.get(i));
-					this.lc = lcService.addLigneCommande(this.lc);
-					this.ligneCommande.add(lc);
+				for (int i = 0; i < this.produitsListe.size(); i++) {
+					double quantite = this.produitsListe.get(i).getQuantiteDesire();
+					double prix = this.produitsListe.get(i).getPrix() * quantite;
+					LigneCommande lcIn = new LigneCommande(quantite, prix);
+					this.produitsListe.get(i).setPrixTotal(prix);
+					lcIn.setCommande(this.commande);
+					lcIn.setProduit(this.produitsListe.get(i));
+					lc = lcService.addLigneCommande(lcIn);
+					this.listeLignesCommandes.add(lc);
+					this.commande.setLignesCommandes(this.listeLignesCommandes);
 				}
 				
 			} else {
@@ -209,7 +213,7 @@ public class CommandeMB implements Serializable {
 				return "panier";
 			}
 
-			this.detailsCommandePdf(this.commande, this.ligneCommande);
+			this.detailsCommandePdf(this.commande, this.listeLignesCommandes);
 
 			MailSender mailsender = new MailSender();
 			String msg = "Bonjour\n\n Une nouvelle commande à traiter a été passée, voir la PJ pour le détail.";

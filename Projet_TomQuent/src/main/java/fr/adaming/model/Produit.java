@@ -38,13 +38,19 @@ public class Produit implements Serializable {
 	@Column(name = "prix_p")
 	private double prix;
 	@Column(name = "quantite_p")
-	private int quantite = 0;
+	private int quantite;
 	@Column(name = "selectionne_p")
 	private boolean selectionne = false;
 	@Lob
 	@Column(name = "photo_p")
 	private byte[] photo;
 
+	@Transient
+	private int quantiteDesire;
+	
+	@Transient
+	private double prixTotal = quantiteDesire*prix;
+	
 	@Transient
 	private String image;
 
@@ -165,6 +171,22 @@ public class Produit implements Serializable {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public int getQuantiteDesire() {
+		return quantiteDesire;
+	}
+
+	public void setQuantiteDesire(int quantiteDesire) {
+		this.quantiteDesire = quantiteDesire;
+	}
+
+	public double getPrixTotal() {
+		return prixTotal;
+	}
+
+	public void setPrixTotal(double prixTotal) {
+		this.prixTotal = prixTotal;
 	}
 
 	@Override

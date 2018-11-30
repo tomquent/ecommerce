@@ -34,6 +34,7 @@ public class LigneCommandeImpl implements ILigneCommandeDao {
 		Session s =sf.getCurrentSession();
 
 		s.save(lc);
+		
 		return lc;
 	}
 

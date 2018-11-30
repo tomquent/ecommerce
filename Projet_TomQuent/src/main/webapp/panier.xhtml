@@ -57,6 +57,14 @@
 							<p:column headerText="Description">
 								<h:outputText value="#{pdt.description}" />
 							</p:column>
+							
+							<p:column headerText="Détail">
+								<p:commandButton icon="fa fa-search-plus"
+									action="#{produitMB.lienProduitView}" ajax="false">
+									<f:setPropertyActionListener value="#{pdt}"
+										target="#{produitMB.produit}" />
+								</p:commandButton>
+							</p:column>
 
 							<p:column headerText="Prix Unitaire">
 								<h:outputText value="#{pdt.prix}" />
@@ -66,8 +74,9 @@
 								<h:outputText value="#{pdt.quantite}" />
 							</p:column>
 
+
 							<p:column headerText="Quantité désiré">
-								<p:spinner min="0" max="#{pdt.quantite}" value="#{lcMB.lc.quantite}" />
+								<p:spinner min="0" max="#{pdt.quantite}" value="#{pdt.quantiteDesire}" />
 							</p:column>
 
 							<p:column headerText="Opération">
