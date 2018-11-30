@@ -39,7 +39,7 @@ import fr.adaming.util.MailSender;
 @RequestScoped
 public class CommandeMB implements Serializable {
 
-	// Clé Réseau
+	// ClÃ© RÃ©seau
 	private static final long serialVersionUID = 1L;
 
 	// ASSO UML EN JAVA
@@ -55,7 +55,7 @@ public class CommandeMB implements Serializable {
 	@ManagedProperty(value = "#{lcService}")
 	ILigneCommandeService lcService;
 
-	// Getters et Setters pour l'injection de dépendance des @ManagedProperty
+	// Setters pour l'injection de dÃ©pendance des @ManagedProperty
 	public void setComService(ICommandeService comService) {
 		this.comService = comService;
 	}
@@ -73,7 +73,7 @@ public class CommandeMB implements Serializable {
 	}
 
 	// Attributs
-	private List<LigneCommande> ligneCommande;
+	private List<LigneCommande> listeLignesCommandes;
 	private LigneCommande lc;
 	private Commande commande;
 	private Client client;
@@ -86,7 +86,7 @@ public class CommandeMB implements Serializable {
 	public CommandeMB() {
 		super();
 		this.session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-		this.ligneCommande = new ArrayList<LigneCommande>();
+		this.listeLignesCommandes = new ArrayList<LigneCommande>();
 		this.lc = new LigneCommande();
 		this.produitsListe = new ArrayList<Produit>();
 		this.client = (Client) session.getAttribute("clientSession");
@@ -96,7 +96,7 @@ public class CommandeMB implements Serializable {
 	@PostConstruct
 	public void init() {
 		this.session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-		this.ligneCommande = new ArrayList<LigneCommande>();
+		this.listeLignesCommandes = new ArrayList<LigneCommande>();
 		this.lc = new LigneCommande();
 		this.produitsListe = new ArrayList<Produit>();
 		this.client = (Client) session.getAttribute("clientSession");
@@ -145,12 +145,12 @@ public class CommandeMB implements Serializable {
 		this.commande = commande;
 	}
 
-	public List<LigneCommande> getLigneCommande() {
-		return ligneCommande;
+	public List<LigneCommande> getListeLignesCommandes() {
+		return listeLignesCommandes;
 	}
 
-	public void setLigneCommande(List<LigneCommande> ligneCommande) {
-		this.ligneCommande = ligneCommande;
+	public void setListeLignesCommandes(List<LigneCommande> listeLignesCommandes) {
+		this.listeLignesCommandes = listeLignesCommandes;
 	}
 
 	// METHODES******************************************************
@@ -163,7 +163,7 @@ public class CommandeMB implements Serializable {
 		this.viewCommande = (boolean) this.session.getAttribute("viewCommande");
 		if (this.viewCommande != false) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "Impossible !", "Une commande est déjà en cours"));
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Impossible !", "Une commande est déjà  en cours"));
 		} else {
 
 			this.viewCommande = true;
@@ -175,14 +175,14 @@ public class CommandeMB implements Serializable {
 
 	public String passerCommande() {
 
-		// Démarrage d'une commande et ajout d'une commande
+		// DÃ©marrage d'une commande et ajout d'une commande
 		Date date = new Date();
 		date.getTime();
 		this.commande.setDate(date);
 		// Client client = (Client) session.getAttribute("clientSession");
 		this.commande.setClient(this.client = (Client) session.getAttribute("clientSession"));
 
-		// vérification de la présence d'un client en session
+		// vÃ©rification de la prÃ©sence d'un client en session
 		if (this.commande.getClient().getId() != 0) {
 
 			// ajout de la commande dans la DB
@@ -190,14 +190,16 @@ public class CommandeMB implements Serializable {
 
 			if (this.commande.getIdCom() != 0) {
 
-				for (int i = 0; i < this.ligneCommande.size(); i++) {
-					double quantite = this.ligneCommande.get(i).getQuantite();
-					double prix = this.ligneCommande.get(i).getProduit().getPrix() * quantite;
+				for (int i = 0; i < this.produitsListe.size(); i++) {
+					double quantite = this.produitsListe.get(i).getQuantiteDesire();
+					double prix = this.produitsListe.get(i).getPrix() * quantite;
 					this.lc = new LigneCommande(quantite, prix);
+					this.produitsListe.get(i).setPrixTotal(prix);
 					this.lc.setCommande(this.commande);
-					// this.lc.setProduit(this.produitsListe.get(i));
+					this.lc.setProduit(this.produitsListe.get(i));
 					this.lc = lcService.addLigneCommande(this.lc);
-					this.ligneCommande.add(lc);
+					this.listeLignesCommandes.add(lc);
+					this.commande.setLignesCommandes(this.listeLignesCommandes);
 				}
 
 			} else {
@@ -206,14 +208,14 @@ public class CommandeMB implements Serializable {
 				return "panier";
 			}
 
-			this.detailsCommandePdf(this.commande, this.ligneCommande);
+			this.detailsCommandePdf(this.commande, this.listeLignesCommandes);
 
 			MailSender mailsender = new MailSender();
 			String msg = "Bonjour\n\n Une nouvelle commande à traiter a été passée, voir la PJ pour le détail.";
 
 			mailsender.sendMail("michalbebert@gmail.com", "Nouvelle Commande", msg, this.commande);
 
-			// Réinitialiser la vue de l'accueilCommande + panier
+			// RÃ©initialiser la vue de l'accueilCommande + panier
 			this.viewCommande = false;
 			this.session.setAttribute("viewCommande", this.viewCommande);
 			this.session.setAttribute("choixViewProduits", false);
@@ -266,27 +268,30 @@ public class CommandeMB implements Serializable {
 	// que 1j après la commande ?!
 
 	public String supprCommandeClient() {
-			// suppression d'une commande
-		
-		System.out.println(this.commande.getIdCom());
-		System.out.println(this.client.getId());
-		
-		if(comService.deleteCom(this.commande, this.client)!=0){
-				
 
+		long dateAjd = new Date().getTime();
+
+		System.out.println(dateAjd - this.commande.getDate().getTime());
+
+		if (dateAjd - this.commande.getDate().getTime() <= 86400000) {
+			if (comService.deleteCom(this.commande, this.client) != 0) {
+			} else {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Impossible", "Supprimer la commande n'est pas possible"));
+			}
 			return "espaceClient";
-
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Impossible", "Supprimer la commande n'est pas possible, votre délai est dépassée"));
 			return "espaceClient";
 		}
+
 	}
 
-	// GetAllCommande pas à faire ??! et GetOneCOmmande non plus..? Surtout si on a
+	// GetAllCommande pas Ã  faire ??! et GetOneCOmmande non plus..? Surtout si on a
 	// un <select> dans le tableau ?
 
-	// Generer le pdf de récapitulatif de la commande
+	// Generer le pdf de rÃ©capitulatif de la commande
 
 	public void detailsCommandePdf(Commande commande, List<LigneCommande> listeLignesCommandes) {
 
@@ -305,7 +310,7 @@ public class CommandeMB implements Serializable {
 			PdfWriter.getInstance(document, new FileOutputStream(chemin));
 			document.open();
 
-			// On créer l'objet cellule.
+			// On crÃ©er l'objet cellule.
 			PdfPCell cell;
 
 			Paragraph paragraph = new Paragraph();
@@ -341,7 +346,7 @@ public class CommandeMB implements Serializable {
 				tableListe.addCell(cell);
 				cell = new PdfPCell(new Phrase(String.valueOf(listeLignesCommandes.get(i).getQuantite())));
 				tableListe.addCell(cell);
-				montantLigne = listeLignesCommandes.get(i).getPrix() * listeLignesCommandes.get(i).getQuantite();
+				montantLigne = listeLignesCommandes.get(i).getPrix();
 				montantTotal += montantLigne;
 				cell = new PdfPCell(new Phrase(String.valueOf(montantLigne) + "€"));
 				tableListe.addCell(cell);

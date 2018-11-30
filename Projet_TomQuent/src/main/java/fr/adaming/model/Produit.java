@@ -49,7 +49,7 @@ public class Produit implements Serializable {
 	private int quantiteDesire;
 	
 	@Transient
-	private double prixTotal = quantiteDesire*prix;
+	private double prixTotal;
 	
 	@Transient
 	private String image;

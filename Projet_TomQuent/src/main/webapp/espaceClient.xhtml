@@ -39,11 +39,10 @@
 
 			<div class="ui-g bodytemplate">
 				<p:fieldset styleClass="col-12" legend="Gestion des commandes">
-					<h:form>
+					<h:form id="dataTableCommande">
 						<p:dataTable scrollWidth="100%"
 							tableStyle="width:80%; margin-left:auto; margin-right:auto;text-align:center"
-							id="dataTableCommande" var="com"
-							value="#{clMB.listeCommandesActuelles}">
+							var="com" value="#{clMB.listeCommandesActuelles}">
 							<f:facet name="header">
 								<h:outputText value="Détails des commandes" />
 							</f:facet>

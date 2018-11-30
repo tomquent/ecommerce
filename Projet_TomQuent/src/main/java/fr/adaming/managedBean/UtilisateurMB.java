@@ -299,8 +299,6 @@ public class UtilisateurMB implements Serializable {
 	public void rechercheProduit() {
 
 		// recuperation de la liste correspondant à la désignation du produit
-		System.out.println(this.produit.getDesignation());
-
 		this.listeProduits = prodService.searchProduits(this.produit);
 
 		// Verification de la contenance de la liste

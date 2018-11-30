@@ -56,7 +56,7 @@ public class MailSender implements Serializable {
 			Multipart multipart = new MimeMultipart();
 			
 			
-			DataSource source= new FileDataSource("C:\\Users\\formi\\Desktop\\PDF\\Commande N°"+commande.getIdCom()+".pdf");
+			DataSource source= new FileDataSource("C:\\Users\\formi\\Desktop\\PDF\\Commande N°" + commande.getIdCom() + ".pdf");
 			textPart.setDataHandler(new DataHandler(source));
 			textPart.setFileName("Récapitulatif de la commande.pdf");
 			message.setSubject(subject);	
