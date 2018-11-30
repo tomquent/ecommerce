@@ -28,7 +28,7 @@ public class LigneCommande implements Serializable {
 	private double quantite;
 
 	@Column(name = "prix")
-	private double prix;
+	private double prix;  
 
 //	Associations UML en JAVA 
 

@@ -193,12 +193,12 @@ public class CommandeMB implements Serializable {
 
 			if (this.commande.getIdCom() != 0) {
 
-				for (int i = 0; i < this.produitsListe.size(); i++) {
-					double quantite = this.produitsListe.get(i).getQuantite();
-					double prix = this.produitsListe.get(i).getPrix() * quantite;
+				for (int i = 0; i < this.ligneCommande.size(); i++) {
+					double quantite = this.ligneCommande.get(i).getQuantite();
+					double prix = this.ligneCommande.get(i).getProduit().getPrix() * quantite;
 					this.lc = new LigneCommande(quantite, prix);
 					this.lc.setCommande(this.commande);
-					this.lc.setProduit(this.produitsListe.get(i));
+					//this.lc.setProduit(this.produitsListe.get(i));
 					this.lc = lcService.addLigneCommande(this.lc);
 					this.ligneCommande.add(lc);
 				}
@@ -209,7 +209,7 @@ public class CommandeMB implements Serializable {
 				return "panier";
 			}
 
-			this.detailsCommandePdf(this.commande, this.produitsListe);
+			this.detailsCommandePdf(this.commande, this.ligneCommande);
 
 			MailSender mailsender = new MailSender();
 			String msg = "Bonjour\n\n Une nouvelle commande à traiter a été passée, voir la PJ pour le détail.";
@@ -296,7 +296,7 @@ public class CommandeMB implements Serializable {
 
 	// Generer le pdf de récapitulatif de la commande
 
-	public void detailsCommandePdf(Commande commande, List<Produit> listeProduitCommande) {
+	public void detailsCommandePdf(Commande commande, List<LigneCommande> listeLignesCommandes) {
 
 		double montantLigne = 0;
 		double montantTotal = 0;
@@ -340,15 +340,15 @@ public class CommandeMB implements Serializable {
 			cell = new PdfPCell(new Phrase("Total"));
 			tableListe.addCell(cell);
 
-			for (int i = 0; i < listeProduitCommande.size(); i++) {
+			for (int i = 0; i < listeLignesCommandes.size(); i++) {
 
-				cell = new PdfPCell(new Phrase(listeProduitCommande.get(i).getDesignation()));
+				cell = new PdfPCell(new Phrase(listeLignesCommandes.get(i).getProduit().getDesignation()));
 				tableListe.addCell(cell);
-				cell = new PdfPCell(new Phrase((String.valueOf(listeProduitCommande.get(i).getPrix() + "€"))));
+				cell = new PdfPCell(new Phrase((String.valueOf(listeLignesCommandes.get(i).getProduit().getPrix() + "€"))));
 				tableListe.addCell(cell);
-				cell = new PdfPCell(new Phrase(String.valueOf(listeProduitCommande.get(i).getQuantite())));
+				cell = new PdfPCell(new Phrase(String.valueOf(listeLignesCommandes.get(i).getQuantite())));
 				tableListe.addCell(cell);
-				montantLigne = listeProduitCommande.get(i).getPrix() * listeProduitCommande.get(i).getQuantite();
+				montantLigne = listeLignesCommandes.get(i).getPrix() * listeLignesCommandes.get(i).getQuantite();
 				montantTotal += montantLigne;
 				cell = new PdfPCell(new Phrase(String.valueOf(montantLigne) + "€"));
 				tableListe.addCell(cell);
