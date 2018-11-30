@@ -1,41 +1,41 @@
 package fr.adaming.managedBean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import fr.adaming.model.Client;
 import fr.adaming.model.Commande;
-import fr.adaming.model.Utilisateur;
 import fr.adaming.service.IClientService;
 import fr.adaming.service.ICommandeService;
 import fr.adaming.service.IProduitService;
 
 @ManagedBean(name = "clMB")
-@RequestScoped
+@SessionScoped
 public class ClientMB implements Serializable {
 
 	// Clé réseau
 	private static final long serialVersionUID = 1L;
 
 	// Asso UML en JAVA
-	@ManagedProperty(value="#{clService}")
+	@ManagedProperty(value = "#{clService}")
 	IClientService clService;
 
-	@ManagedProperty(value="#{comService}")
+	@ManagedProperty(value = "#{comService}")
 	ICommandeService comService;
 
-	@ManagedProperty(value="#{prodService}")
+	@ManagedProperty(value = "#{prodService}")
 	IProduitService prodService;
-	
-	// Getters et Setters pour l'injection de dépendance des @ManagedProperty	
+
+	// Getters et Setters pour l'injection de dépendance des @ManagedProperty
 	public void setClService(IClientService clService) {
 		this.clService = clService;
 	}
@@ -47,9 +47,6 @@ public class ClientMB implements Serializable {
 	public void setProdService(IProduitService prodService) {
 		this.prodService = prodService;
 	}
-	
-	
-	
 
 	// Attributs
 	private Client client;
@@ -61,16 +58,22 @@ public class ClientMB implements Serializable {
 	// Constructeurs
 	public ClientMB() {
 		super();
-		this.client = new Client();
-		this.session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-		this.client = (Client) session.getAttribute("sessionClient");
-		// !!! ligne du dessus, que si le client existe ??
 	}
 
 	@PostConstruct
 	public void init() {
-		this.client = new Client();
 		this.session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+		if ((Client) session.getAttribute("sessionClient") != null) {
+			this.client = (Client) session.getAttribute("sessionClient");
+			if (comService.getAllCom(this.client).size() != 0) {
+				this.listeCommandesActuelles = comService.getAllCom(this.client);
+			} else {
+				this.listeCommandesActuelles = new ArrayList<Commande>();
+			}
+		} else {
+			this.client = new Client();
+			this.listeCommandesActuelles = new ArrayList<Commande>();
+		}
 	}
 
 	// Getters et setters
@@ -100,6 +103,9 @@ public class ClientMB implements Serializable {
 
 	// METHODES
 
+	// ESPACE
+	// MENU-------------------------------------------------------------------
+
 	// Ajouter un client (qui s'ajoute lui même, il s'abonne)
 
 	public String lienAddClient() {
@@ -119,7 +125,7 @@ public class ClientMB implements Serializable {
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("viewClient", this.viewClient);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Abonnement réussi ! Voici nos "
 					+ "articles, vous pouvez dès maintenant en ajouter à votre panier !"));
-			
+
 			return "accueilCommande";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -131,7 +137,7 @@ public class ClientMB implements Serializable {
 	// Modifier un client (il se modifie tout seul)
 
 	public String lienModifClient() {
-		this.client=(Client) session.getAttribute("clientSession");
+		this.client = (Client) session.getAttribute("clientSession");
 		return "modificationClient";
 	}
 
@@ -141,8 +147,8 @@ public class ClientMB implements Serializable {
 		int verif = clService.updateClient(this.client);
 		if (verif != 0) {
 
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Modification(s) réussie(s) !"," Voici nos "
-					+ "articles, vous pouvez dès maintenant en ajouter à votre panier !"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Modification(s) réussie(s) !",
+					" Voici nos " + "articles, vous pouvez dès maintenant en ajouter à votre panier !"));
 			return "accueilCommande";
 
 		} else {
@@ -202,6 +208,25 @@ public class ClientMB implements Serializable {
 		this.viewClient = false;
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("viewClient", this.viewClient);
 		return "accueilCommande";
+	}
+
+	// ESPACE CLIENT---------------------------------------------------------------
+
+	// Méthode accès Espace Client
+
+	public String espaceClient() {
+
+		if (this.client != null) {
+			if (comService.getAllCom(this.client).size() != 0) {
+				this.listeCommandesActuelles = comService.getAllCom(this.client);
+			} else {
+				this.listeCommandesActuelles = new ArrayList<Commande>();
+			}
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Connexion impossible", "Vous devez vous connecter pour accéder à votre espace Client"));
+		}
+		return "espaceClient";
 	}
 
 }

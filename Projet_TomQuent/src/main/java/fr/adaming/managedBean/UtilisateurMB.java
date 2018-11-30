@@ -191,7 +191,7 @@ public class UtilisateurMB implements Serializable {
 
 	// COTE
 	// COMMANDE____________________________________________________________________________________
-
+		
 	// Méthode lien vers la page
 
 	public String lienAccueilCommande() {

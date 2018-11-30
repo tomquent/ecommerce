@@ -27,6 +27,10 @@
 							icon="ui-icon-home" />
 						<p:menuitem action="#{utilisateurMB.deconnecter}" value="Quitter"
 							icon="ui-icon-extlink" />
+
+						<p:menuitem action="#{utilisateurMB.espaceClient}"
+							style="float:right" value="Espace Client"
+							icon="fa fa-adresse-book-o" />
 					</p:menubar>
 				</h:form>
 			</div>
@@ -42,7 +46,7 @@
 			<div class="ui-g bodytemplate">
 
 				<!-- ESPACE MENU _________________________________________________ -->
-				<p:fieldset styleClass="col-3 articletemplate">
+				<p:fieldset styleClass="col-2 articletemplate">
 					<h:form>
 						<h2>Menu</h2>
 						<p:megaMenu orientation="vertical">
@@ -167,11 +171,11 @@
 									<p:column headerText="Categorie">
 										<h:outputText value="#{pdt.pCategorie.nomCategorie}" />
 									</p:column>
-									
+
 									<p:column headerText="Id Produit">
 										<h:outputText value="#{pdt.idProduit}" />
 									</p:column>
-									
+
 									<p:column headerText="Designation">
 										<h:outputText value="#{pdt.designation}" />
 									</p:column>
@@ -209,7 +213,8 @@
 						</p:fieldset>
 
 
-						<p:panel styleClass="col-12" rendered="#{!sessionScope.viewCommande}">
+						<p:panel styleClass="col-12"
+							rendered="#{!sessionScope.viewCommande}">
 							<div class="col-4"></div>
 							<div class="col-4">
 								<p:imageSwitch effect="fade" speed="900">
