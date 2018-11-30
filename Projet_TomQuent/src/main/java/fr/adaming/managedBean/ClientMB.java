@@ -222,11 +222,13 @@ public class ClientMB implements Serializable {
 			} else {
 				this.listeCommandesActuelles = new ArrayList<Commande>();
 			}
+			return "espaceClient";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 					"Connexion impossible", "Vous devez vous connecter pour accéder à votre espace Client"));
+			return "accueilCommande";
 		}
-		return "espaceClient";
+
 	}
 
 }
