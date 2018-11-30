@@ -77,14 +77,11 @@ public class CommandeServiceImpl implements ICommandeService {
 	// Méthode deleteCommande
 	@Override
 	public int deleteCom(Commande com, Client c) {    // Faire que le client ne peut supprimer sa commande que 1j après dans MB
-		Client cl1 = clDao.getClient(c);
-		Client cl2 = com.getClient();
-		if(cl1 == cl2) {
-			Commande comOut = comDao.getCom(com);
-			return comDao.deleteCom(comOut);
-		}else {
-			return 0;
-		}
+			if(com.getClient().getId()==c.getId()) {
+			return comDao.deleteCom(com);}else {
+				return 0;
+			}
+
 	}
 	
 	

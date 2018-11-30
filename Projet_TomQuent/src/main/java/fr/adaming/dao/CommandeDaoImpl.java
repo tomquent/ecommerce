@@ -89,7 +89,7 @@ public class CommandeDaoImpl implements ICommandeDao {
 		
 		// Requete HQL (et donc Query de HQL!!) et passage des params // REQUETE HQL obligatoire pour delete CAR s.delete retourne void donc on peut pas savoir si il le fait
 		String req="DELETE Commande c WHERE c.idCom=:pCId";
-		Query query=s.createQuery(req);		
+		Query query=s.createQuery(req);	
 
 		query.setParameter("pCId" , com.getIdCom());  
 

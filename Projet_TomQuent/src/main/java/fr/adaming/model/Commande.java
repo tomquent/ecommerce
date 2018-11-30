@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,7 +44,7 @@ public class Commande implements Serializable {
 	private Client client;
 
 	// la classe maître est Produit
-	@OneToMany(mappedBy ="commande", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy ="commande", fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	private List<LigneCommande> lignesCommandes;
 
 	// Constructeurs
