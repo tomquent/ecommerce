@@ -57,10 +57,17 @@
 							<p:column headerText="Date Commande">
 								<h:outputText value="#{com.date}" />
 							</p:column>
-							
-							<p:column headerText="Operation">
-								
-								
+
+							<p:column headerText="Supprimer la commande">
+								<p:commandButton icon="fa fa-remove" styleClass="button"
+									action="#{coMB.supprCommandeClient}" update="dataTableCommande">
+									<p:confirm header="Confirmation" message="Êtes-vous sûr(e) ?" />
+									<f:setPropertyActionListener value="#{com}"
+										target="#{coMB.commande}" />
+									<f:setPropertyActionListener value="#{com.client}"
+										target="#{coMB.client}" />
+								</p:commandButton>
+
 							</p:column>
 
 							<p:rowExpansion>
@@ -88,7 +95,7 @@
 										<h:outputText value="#{lc.prix} €">
 										</h:outputText>
 									</p:column>
-									
+
 									<p:column headerText="Détail">
 										<p:commandButton icon="fa fa-search-plus"
 											action="#{produitMB.lienProduitView}" ajax="false">
@@ -105,6 +112,14 @@
 
 				</p:fieldset>
 			</div>
+			<h:form>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Oui" type="button"
+						styleClass="ui-confirmdialog-yes" />
+					<p:commandButton value="Non" type="button"
+						styleClass="ui-confirmdialog-no" />
+				</p:confirmDialog>
+			</h:form>
 		</ui:define>
 
 
