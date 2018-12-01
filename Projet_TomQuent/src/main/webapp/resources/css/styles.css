@@ -303,6 +303,10 @@ fieldset {
 	box-shadow: 0 0 2px 1px #ffffff;
 }
 
+.imgAccueil:hover{
+	opacity: 5% ;
+}
+
 .spinnerClass {
 	width: 30px;
 }

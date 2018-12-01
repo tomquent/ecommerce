@@ -43,7 +43,7 @@
 			<div id="dataTableCommande" class="ui-g bodytemplate">
 				<p:fieldset styleClass="col-12" legend="Gestion des commandes">
 					<h:form>
-						<p:dataTable scrollWidth="100%"
+						<p:dataTable scrollWidth="100%" styleClass="ui-datatable"
 							tableStyle="width:90%; margin-left:auto; margin-right:auto;text-align:center"
 							var="com" value="#{utilisateurMB.listeCommandes}">
 							<f:facet name="header">
@@ -63,7 +63,7 @@
 							<p:column headerText="Client">
 								<h:outputText value="#{com.client.nom}" />
 							</p:column>
-							
+
 							<p:column headerText="Contacter">
 								<p:commandButton icon="fa fa-mail-forward" styleClass="button"
 									action="#{contacterMB.contacterLienClient}">
