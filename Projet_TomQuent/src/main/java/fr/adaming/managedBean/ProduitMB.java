@@ -17,7 +17,7 @@ import fr.adaming.model.Produit;
 import fr.adaming.service.ICategorieService;
 import fr.adaming.service.IProduitService;
 
-@ManagedBean(name="produitMB")
+@ManagedBean(name = "produitMB")
 @RequestScoped
 public class ProduitMB implements Serializable {
 
@@ -25,14 +25,14 @@ public class ProduitMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// association UML en JAVA
-	@ManagedProperty(value="#{catService}")
+	@ManagedProperty(value = "#{catService}")
 	private ICategorieService catService;
-	
+
 	public void setCatService(ICategorieService catService) {
 		this.catService = catService;
 	}
 
-	@ManagedProperty(value="#{prodService}")
+	@ManagedProperty(value = "#{prodService}")
 	private IProduitService prodService;
 
 	// Attributs
@@ -138,13 +138,13 @@ public class ProduitMB implements Serializable {
 	}
 
 	public String modifierProduit() {
-		
-		if (this.file.getSize()==0) {
+
+		if (this.file.getSize() == 0) {
 			this.produit.setPhoto(prodService.getProduit(this.produit, this.categorie).getPhoto());
-		}else {
+		} else {
 			this.produit.setPhoto(file.getContents());
 		}
-		
+
 		int verif = prodService.updateProduit(this.produit, this.categorie);
 		if (verif != 0) {
 			// maj de la liste
@@ -157,14 +157,14 @@ public class ProduitMB implements Serializable {
 			return "modificationProduit";
 		}
 	}
-	
-	//Visualiser le produit + lien
-	
-	public String lienProduitView(){
-		
-		this.produit=prodService.getProduit(this.produit, this.produit.getpCategorie());
-		
+
+	// Visualiser le produit + lien
+
+	public String lienProduitView() {
+
+		this.produit = prodService.getProduit(this.produit, this.produit.getpCategorie());
+
 		return "ficheProduit";
 	}
-	
+
 }

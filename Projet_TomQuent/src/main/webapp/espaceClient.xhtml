@@ -73,9 +73,6 @@
 								<p:dataTable scrollWidth="100%"
 									tableStyle="width:100%; margin-left:auto; margin-right:auto;text-align:center"
 									id="dataTableProduit" var="lc" value="#{com.lignesCommandes}">
-									<f:facet name="header">
-										<h:outputText value="Détails des produits" />
-									</f:facet>
 
 									<p:column headerText="Categorie">
 										<h:outputText value="#{lc.produit.pCategorie.nomCategorie}" />
