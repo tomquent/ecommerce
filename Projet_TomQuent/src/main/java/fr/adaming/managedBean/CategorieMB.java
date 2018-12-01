@@ -182,7 +182,7 @@ public class CategorieMB implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("indiceViewProduits",
 				this.indiceViewProduits);
 
-		return "accueilGestionAdmin";
+		return "espaceGestionCatalogue";
 
 	}
 

@@ -194,10 +194,18 @@ public class CommandeMB implements Serializable {
 					int quantite = this.produitsListe.get(i).getQuantiteDesire();
 					double prix = this.produitsListe.get(i).getPrix() * quantite;
 					this.lc = new LigneCommande(quantite, prix);
-					this.produitsListe.get(i).setPrixTotal(prix); // ça sert plus à rien ?
-					this.produitsListe.get(i).setQuantite(this.produitsListe.get(i).getQuantite()*quantite);
+					
+					this.produitsListe.get(i).setPrixTotal(prix); 
+					
+					// Mettre à jour le stock de produit
+					this.produitsListe.get(i).setQuantite(this.produitsListe.get(i).getQuantite() - quantite);
+					prodService.updateProduit(this.produitsListe.get(i), this.produitsListe.get(i).getpCategorie());
+					
+					// Lier la commande et la LC et la LC et le produit
 					this.lc.setCommande(this.commande);
 					this.lc.setProduit(this.produitsListe.get(i));
+					
+					// ajouter les LC a la BD et les lier à une commande
 					this.lc = lcService.addLigneCommande(this.lc);
 					this.listeLignesCommandes.add(lc);
 					this.commande.setLignesCommandes(this.listeLignesCommandes);
@@ -211,7 +219,8 @@ public class CommandeMB implements Serializable {
 
 			this.detailsCommandePdf(this.commande, this.listeLignesCommandes);
 
-			String msg = "Bonjour\n\n Une nouvelle commande à traiter a été passée, voir la PJ pour le détail.";
+			String msg = "Bonjour\n\n Une nouvelle commande a été passée par le client : "+this.commande.getClient().getNom() +
+					" ! \n La commande est à traiter ; voir la PJ pour le détail.";
 
 			MailSender.sendMail("michalbebert@gmail.com", "Nouvelle Commande", msg, this.commande);
 
@@ -221,7 +230,12 @@ public class CommandeMB implements Serializable {
 			this.session.setAttribute("choixViewProduits", false);
 			this.session.setAttribute("choixViewRecherche", false);
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "La commande enregistrée !", ""));
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Commande enregistrée !", ""));
+			
+			// Réinitialisation du panier
+			PanierMB panierMB = new PanierMB();
+			panierMB.setProduitsListeTampon(null);
+			panierMB.setProduitsListeSelectionne(null);
 
 			return "recapitulatifCommande";
 		} else {
@@ -235,7 +249,8 @@ public class CommandeMB implements Serializable {
 	public String retourRecap() {
 
 		PanierMB panierMB = new PanierMB();
-		panierMB.setProduitsListeTampon(new ArrayList<Produit>());
+		panierMB.setProduitsListeTampon(null);
+		panierMB.setProduitsListeSelectionne(null);
 
 		return "accueilCommande";
 	}
@@ -271,10 +286,15 @@ public class CommandeMB implements Serializable {
 
 		long dateAjd = new Date().getTime();
 
-		System.out.println(dateAjd - this.commande.getDate().getTime());
+		//System.out.println(dateAjd - this.commande.getDate().getTime());
 
 		if (dateAjd - this.commande.getDate().getTime() <= 86400000) {
-			if (comService.deleteCom(this.commande, this.client) != 0) {
+			
+			int a = comService.deleteCom(this.commande, this.client);
+			
+			if (a != 0) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Ok", "La commande a été supprimée"));
 			} else {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 						"Impossible", "Supprimer la commande n'est pas possible"));
@@ -289,8 +309,12 @@ public class CommandeMB implements Serializable {
 	}
 
 	public String supprCommandeAdmin() {
-
-		if (comService.deleteCom(this.commande, this.client) != 0) {
+		
+		comService.deleteCom(this.commande, this.client);
+		
+		int a = comService.deleteCom(this.commande, this.client);
+		
+		if (a != 0) {
 
 			String subject = "Suppression de votre commande";
 

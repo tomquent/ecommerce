@@ -43,7 +43,7 @@
 
 			<div class="ui-g bodytemplate">
 				<p:fieldset styleClass="col-12" legend="Gestion des commandes">
-					<h:form>
+					<h:form id="dataCommandes">
 						<p:dataTable id="dataTableCommande" scrollWidth="100%"
 							styleClass="ui-datatable"
 							tableStyle="width:90%; margin-left:auto; margin-right:auto;text-align:center"
@@ -76,7 +76,7 @@
 
 							<p:column headerText="Supprimer la commande">
 								<p:commandButton icon="fa fa-remove" styleClass="button"
-									action="#{coMB.supprCommandeAdmin}" update="dataTableCommande">
+									action="#{coMB.supprCommandeAdmin}" update="dataCommandes">
 									<p:confirm header="Confirmation" message="Êtes-vous sûr(e) ?" />
 									<f:setPropertyActionListener value="#{com}"
 										target="#{coMB.commande}" />
