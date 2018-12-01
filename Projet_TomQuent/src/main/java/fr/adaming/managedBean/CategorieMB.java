@@ -22,7 +22,7 @@ import fr.adaming.service.IProduitService;
 @RequestScoped
 public class CategorieMB implements Serializable {
 
-//	Clé réseau
+//	Clï¿½ rï¿½seau
 	private static final long serialVersionUID = 1L;
 
 	// association UML en JAVA
@@ -95,9 +95,9 @@ public class CategorieMB implements Serializable {
 		this.file = file;
 	}
 
-	// Autres méthodes
+	// Autres mï¿½thodes
 
-	// Méthode ajouterCatégorie + lien
+	// Mï¿½thode ajouterCatï¿½gorie + lien
 
 	public String lienAjouterCategorie() {
 
@@ -120,7 +120,7 @@ public class CategorieMB implements Serializable {
 		}
 	}
 
-	// Méthode supprimerCategorie
+	// Mï¿½thode supprimerCategorie
 
 	public void supprimerCategorie() {
 		int verif = catService.deleteCategorie(cat);
@@ -134,11 +134,11 @@ public class CategorieMB implements Serializable {
 
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Attention",
-					"Impossible de supprimer cette catégorie"));
+					"Impossible de supprimer cette catï¿½gorie"));
 		}
 	}
 
-	// Méthode modifierCategorie + lien
+	// Mï¿½thode modifierCategorie + lien
 
 	public String lienModifierCategorie() {
 
@@ -157,22 +157,22 @@ public class CategorieMB implements Serializable {
 			// maj de la liste
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catListe",
 					catService.getAllCategories());
-			return "accueilGestionAdmin";
+			return "espaceGestionCatalogue";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Attention",
-					"Impossible de modifier cette catégorie, il manque des informations"));
+					"Impossible de modifier cette catï¿½gorie, il manque des informations"));
 			return "modificationCategorie";
 		}
 	}
 
-	// Méthode LookProduit
+	// Mï¿½thode LookProduit
 
 	public String LookProduit() {
 
-//		Ajout de la categorie choisie à la session
+//		Ajout de la categorie choisie ï¿½ la session
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catSession", this.cat);
 
-//		ajout de la liste de produit de la categorie selectionnée
+//		ajout de la liste de produit de la categorie selectionnï¿½e
 		this.listeProduits = prodService.getAllProduits(this.cat);
 
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("produitsListe", listeProduits);

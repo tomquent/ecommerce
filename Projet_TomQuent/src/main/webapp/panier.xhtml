@@ -66,12 +66,12 @@
 								<h:outputText value="#{pdt.prix} €" />
 							</p:column>
 							
-							<p:column headerText="Disponible">
+							<p:column headerText="Quantité disponible">
 								<h:outputText value="#{pdt.quantite}" />
 							</p:column>
 
 
-							<p:column headerText="Quantité désiré">
+							<p:column headerText="Quantité désirée">
 								
 								<p:spinner size="2" min="0" max="#{pdt.quantite}" value="#{pdt.quantiteDesire}">
 									<p:ajax update="out" />

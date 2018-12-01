@@ -191,10 +191,11 @@ public class CommandeMB implements Serializable {
 			if (this.commande.getIdCom() != 0) {
 
 				for (int i = 0; i < this.produitsListe.size(); i++) {
-					double quantite = this.produitsListe.get(i).getQuantiteDesire();
+					int quantite = this.produitsListe.get(i).getQuantiteDesire();
 					double prix = this.produitsListe.get(i).getPrix() * quantite;
 					this.lc = new LigneCommande(quantite, prix);
-					this.produitsListe.get(i).setPrixTotal(prix);
+					this.produitsListe.get(i).setPrixTotal(prix); // ça sert plus à rien ?
+					this.produitsListe.get(i).setQuantite(this.produitsListe.get(i).getQuantite()*quantite);
 					this.lc.setCommande(this.commande);
 					this.lc.setProduit(this.produitsListe.get(i));
 					this.lc = lcService.addLigneCommande(this.lc);
