@@ -17,6 +17,8 @@ import fr.adaming.model.Commande;
 import fr.adaming.model.Produit;
 import fr.adaming.model.Utilisateur;
 import fr.adaming.service.ICategorieService;
+import fr.adaming.service.IClientService;
+import fr.adaming.service.ICommandeService;
 import fr.adaming.service.IProduitService;
 import fr.adaming.service.IUtilisateurService;
 
@@ -46,6 +48,20 @@ public class UtilisateurMB implements Serializable {
 	public void setProdService(IProduitService prodService) {
 		this.prodService = prodService;
 	}
+	
+	@ManagedProperty(value = "#{comService}")
+	ICommandeService comService;
+	
+	public void setComService(ICommandeService comService) {
+		this.comService = comService;
+	}
+	
+	@ManagedProperty(value = "#{clService}")
+	IClientService clService;
+	
+	public void setClService(IClientService clService) {
+		this.clService = clService;
+	}
 
 	
 //	Attributs
@@ -59,20 +75,22 @@ public class UtilisateurMB implements Serializable {
 	private boolean choixViewProduits = false;
 	private boolean choixViewRecherche = false;
 	private List<Produit> listeProduits;
+	private List<Commande> listeCommandes;
 	private Categorie categorie;
 	private Produit produit;
 
 //	Constructeur vide
 	public UtilisateurMB() {
 		super();
-		this.utilisateur = new Utilisateur();
-		this.maSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-		this.categorie = new Categorie();
-		this.produit = new Produit();
 	}
 
 	@PostConstruct
 	public void init() {
+		this.utilisateur = new Utilisateur();
+		this.maSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);	
+		this.categorie = new Categorie();
+		this.produit = new Produit();
+		this.listeCommandes = comService.getAllCom();
 	}
 	
 
@@ -142,6 +160,14 @@ public class UtilisateurMB implements Serializable {
 		this.produit = produit;
 	}
 
+	public List<Commande> getListeCommandes() {
+		return listeCommandes;
+	}
+
+	public void setListeCommandes(List<Commande> listeCommandes) {
+		this.listeCommandes = listeCommandes;
+	}
+
 	public List<Categorie> getListeCategories() {
 		return listeCategories;
 	}
@@ -152,9 +178,10 @@ public class UtilisateurMB implements Serializable {
 
 //	Autres méthodes****************************************************************************
 
-	// COTE
-	// ADMIN______________________________________________________________________________
+	// COTE ADMIN__________________________________________________________________________
 
+	//CONNEXION DECONNEXION------------------------
+	
 	// se connecter
 
 	public String seConnecter() {
@@ -189,8 +216,12 @@ public class UtilisateurMB implements Serializable {
 		return "login";
 	}
 
-	// COTE
-	// COMMANDE____________________________________________________________________________________
+	//Gestion COMMANDES des Clients------------------------
+	
+	
+	
+	
+	// COTE COMMANDE (Client)______________________________________________________________
 		
 	// Méthode lien vers la page
 

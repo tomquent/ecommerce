@@ -290,8 +290,18 @@ public class CommandeMB implements Serializable {
 	public String supprCommandeAdmin() {
 
 		if (comService.deleteCom(this.commande, this.client) != 0) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Ok", "La commande a été supprimée"));
+
+			String subject = "Suppression de votre commande";
+
+			String msg = "Bonjour M./Mme " + this.client.getNom()
+					+ ",\n\nNous avons constaté une anomalie dans votre commande du " + this.commande.getDate().getDay()
+					+ "/" + this.commande.getDate().getMonth()
+					+ ".\n\nCette commande est donc annulé et vous serez remboursé(e) dans les plus brefs délais.\n\nNous vous prions d'excuser ce désagrément et nous vous offrons une remise de 50% sur le prochain article que vous souhaiterez acquérir sur notre site.\n\nSachez accueillir nos sincères excuses.\n\nLe service client.";
+
+			MailSender.sendMailAdmin(this.client.getMail(), subject, msg);
+
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Ok", "La commande a été supprimée"));
 			return "espaceGestionCommande";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,

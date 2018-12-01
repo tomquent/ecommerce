@@ -44,8 +44,8 @@
 				<p:fieldset styleClass="col-12" legend="Gestion des commandes">
 					<h:form id="dataTableCommande">
 						<p:dataTable scrollWidth="100%"
-							tableStyle="width:80%; margin-left:auto; margin-right:auto;text-align:center"
-							var="com" value="#{clMB.listeCommandesActuelles}">
+							tableStyle="width:90%; margin-left:auto; margin-right:auto;text-align:center"
+							var="com" value="#{utilisateurMB.listeCommandes}">
 							<f:facet name="header">
 								<h:outputText value="Détails des commandes" />
 							</f:facet>
@@ -56,13 +56,25 @@
 								<h:outputText value="#{com.idCom}" />
 							</p:column>
 
-							<p:column headerText="Date Commande">
+							<p:column headerText="Passé le">
 								<h:outputText value="#{com.date}" />
+							</p:column>
+
+							<p:column headerText="Client">
+								<h:outputText value="#{com.client.nom}" />
+							</p:column>
+							
+							<p:column headerText="Contacter">
+								<p:commandButton icon="fa fa-mail-forward" styleClass="button"
+									action="#{contacterMB.contacterLienClient}">
+									<f:setPropertyActionListener value="#{com.client.mail}"
+										target="#{contacterMB.toMail}" />
+								</p:commandButton>
 							</p:column>
 
 							<p:column headerText="Supprimer la commande">
 								<p:commandButton icon="fa fa-remove" styleClass="button"
-									action="#{coMB.supprCommandeClient}" update="dataTableCommande">
+									action="#{coMB.supprCommandeAdmin}" update="dataTableCommande">
 									<p:confirm header="Confirmation" message="Êtes-vous sûr(e) ?" />
 									<f:setPropertyActionListener value="#{com}"
 										target="#{coMB.commande}" />
@@ -96,14 +108,6 @@
 									<p:column headerText="Prix payé">
 										<h:outputText value="#{lc.prix} €">
 										</h:outputText>
-									</p:column>
-
-									<p:column headerText="Détail">
-										<p:commandButton icon="fa fa-search-plus"
-											action="#{produitMB.lienProduitView}" ajax="false">
-											<f:setPropertyActionListener value="#{lc.produit}"
-												target="#{produitMB.produit}" />
-										</p:commandButton>
 									</p:column>
 
 								</p:dataTable>

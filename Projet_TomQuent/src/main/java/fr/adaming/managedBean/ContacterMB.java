@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 
 import fr.adaming.util.MailSender;
 
-@ManagedBean(name="contacterMB")
+@ManagedBean(name = "contacterMB")
 @RequestScoped
 public class ContacterMB implements Serializable {
 
@@ -20,6 +20,7 @@ public class ContacterMB implements Serializable {
 	// Attribut-------------------------------
 
 	// MAIL
+	private String toMail;
 	private String objet;
 	private String msg;
 
@@ -39,6 +40,14 @@ public class ContacterMB implements Serializable {
 		this.objet = objet;
 	}
 
+	public String getToMail() {
+		return toMail;
+	}
+
+	public void setToMail(String toMail) {
+		this.toMail = toMail;
+	}
+
 	public String getMsg() {
 		return msg;
 	}
@@ -46,22 +55,38 @@ public class ContacterMB implements Serializable {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-	
+
 	// autres méthodes--------------------------
 
 	// CONTACTER LE GERANT
-	
+
 	public String contacterLienAdmin() {
 		return "contactAdmin";
 	}
 
 	public String contacterAdmin() {
 
-			MailSender mailSender = new MailSender();
-			
-			mailSender.sendMailAdmin("michalbebert@gmail.com", objet, msg);
-			
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Message envoyé","Votre correspondant répondra au plus vite."));
-			return "accueilCommande";	
+		MailSender.sendMailAdmin("michalbebert@gmail.com", objet, msg);
+
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Message envoyé", "Votre correspondant répondra au plus vite."));
+		return "accueilCommande";
+	}
+
+	// CONTACTER LE CLIENT
+
+	public String contacterLienClient() {
+
+		return "contactClient";
+	}
+
+	public String contacterClient() {
+
+		MailSender.sendMailAdmin(toMail, objet, msg);
+		
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Message envoyé", "Le client recevra le mail."));
+		
+		return "espaceGestionCommande";
 	}
 }
