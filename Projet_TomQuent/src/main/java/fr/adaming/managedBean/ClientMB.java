@@ -76,8 +76,8 @@ public class ClientMB implements Serializable {
 		this.session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 		if ((Client) session.getAttribute("sessionClient") != null) {
 			this.client = (Client) session.getAttribute("sessionClient");
-			if (comService.getAllCom(this.client).size() != 0) {
-				this.listeCommandesActuelles = comService.getAllCom(this.client);
+			if (comService.getAllComByClient(this.client).size() != 0) {
+				this.listeCommandesActuelles = comService.getAllComByClient(this.client);
 			} else {
 				this.listeCommandesActuelles = new ArrayList<Commande>();
 			}
@@ -237,8 +237,8 @@ public class ClientMB implements Serializable {
 
 	public String espaceClient() {
 		if (this.client != null) {
-			if (comService.getAllCom(this.client).size() != 0) {
-				this.listeCommandesActuelles = comService.getAllCom(this.client);
+			if (comService.getAllComByClient(this.client).size() != 0) {
+				this.listeCommandesActuelles = comService.getAllComByClient(this.client);
 			} else {
 				this.listeCommandesActuelles = new ArrayList<Commande>();
 			}
