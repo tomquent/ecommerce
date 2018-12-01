@@ -30,7 +30,17 @@ public class CommandeDaoImpl implements ICommandeDao {
 	// Méthode getAllCommande
 
 	@Override
-	public List<Commande> getAllCom(Client c) {
+	public List<Commande> getAllCom() {
+		Session s = sf.getCurrentSession();
+		String req = "FROM Commande c";
+		Query query = s.createQuery(req);
+		return query.list();
+	}
+	
+	// Méthode getAllCommandeByClient
+	
+	@Override
+	public List<Commande> getAllComByClient(Client c) {
 		Session s = sf.getCurrentSession();
 		
 		// Requete HQL et passage des params

@@ -14,12 +14,11 @@ import fr.adaming.model.Commande;
 @Service("comService")
 @Transactional
 public class CommandeServiceImpl implements ICommandeService {
-	
+
 	// Asso UML en JAVA
 	@Autowired
 	private ICommandeDao comDao;
-	
-	
+
 	// Asso UML en JAVA
 	@Autowired
 	private IClientDao clDao;
@@ -31,14 +30,21 @@ public class CommandeServiceImpl implements ICommandeService {
 	public void setClDao(IClientDao clDao) {
 		this.clDao = clDao;
 	}
-	
 
-	//  METHODES
-	
+	// METHODES
+
 	// Méthode getAllCommande
+
 	@Override
-	public List<Commande> getAllCom(Client c) {    
-		return comDao.getAllCom(c);
+	public List<Commande> getAllCom() {
+		return comDao.getAllCom();
+	}
+
+	// Méthode getAllComByClient
+
+	@Override
+	public List<Commande> getAllComByClient(Client c) {
+		return comDao.getAllComByClient(c);
 	}
 
 	// Méthode getCommande
@@ -46,44 +52,44 @@ public class CommandeServiceImpl implements ICommandeService {
 	public Commande getCom(Commande com, Client c) {
 		Client cl1 = clDao.getClient(c);
 		Client cl2 = com.getClient();
-		if(cl1 == cl2) {
-			Commande comOut=comDao.getCom(com);
+		if (cl1 == cl2) {
+			Commande comOut = comDao.getCom(com);
 			return comDao.getCom(comOut);
-		}else {
+		} else {
 			return null;
-		}	
+		}
 	}
 
 	// Méthode addCommande
 	@Override
-	public Commande addCom(Commande com, Client c) {   
+	public Commande addCom(Commande com, Client c) {
 		// Lier la commande au client
 		com.setClient(c);
 		return comDao.addCom(com);
 	}
-	
+
 	// Méthode updateCommande
 	@Override
-	public int updateCom(Commande com, Client c) {     
+	public int updateCom(Commande com, Client c) {
 		Client cl = clDao.getClient(c);
-		if(cl.getId() == com.getClient().getId()) {
-			Commande comOut=comDao.getCom(com);
+		if (cl.getId() == com.getClient().getId()) {
+			Commande comOut = comDao.getCom(com);
 			return comDao.updateCom(comOut);
-		}else {
+		} else {
 			return 0;
-		}	
+		}
 	}
 
 	// Méthode deleteCommande
 	@Override
-	public int deleteCom(Commande com, Client c) {    // Faire que le client ne peut supprimer sa commande que 1j après dans MB
-			if(com.getClient().getId()==c.getId()) {
-			return comDao.deleteCom(com);}else {
-				return 0;
-			}
+	public int deleteCom(Commande com, Client c) { // Faire que le client ne peut supprimer sa commande que 1j après
+													// dans MB
+		if (com.getClient().getId() == c.getId()) {
+			return comDao.deleteCom(com);
+		} else {
+			return 0;
+		}
 
 	}
-	
-	
 
 }

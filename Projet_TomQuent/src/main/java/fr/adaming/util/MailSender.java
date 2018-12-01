@@ -26,7 +26,7 @@ public class MailSender implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public void sendMail(String toMail, String subject, String msg, Commande commande) {
+	public static void sendMail(String toMail, String subject, String msg, Commande commande) {
 
 		final String username = "michalbebert@gmail.com";
 		final String password = "playre258!";		//gerantproxybanque00
@@ -77,7 +77,7 @@ public class MailSender implements Serializable {
 
 	}
 	
-	public void sendMailAdmin(String toMail, String subject, String msg) {
+	public static void sendMailAdmin(String toMail, String subject, String msg) {
 
 		final String username = "michalbebert@gmail.com";
 		final String password = "playre258!";		//gerantproxybanque00

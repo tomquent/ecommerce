@@ -9,7 +9,9 @@ import fr.adaming.model.Commande;
 
 public interface ICommandeService {
 	
-	public List<Commande> getAllCom(Client c);    // Historique des commandes du client
+	public List<Commande> getAllCom();
+	
+	public List<Commande> getAllComByClient(Client c);    // Historique des commandes du client
 	
 	public Commande getCom(Commande com, Client c);
 	

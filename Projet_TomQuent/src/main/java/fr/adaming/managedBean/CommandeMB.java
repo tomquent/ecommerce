@@ -175,14 +175,14 @@ public class CommandeMB implements Serializable {
 
 	public String passerCommande() {
 
-		// DÃ©marrage d'une commande et ajout d'une commande
+		// Démarrage d'une commande et ajout d'une commande
 		Date date = new Date();
 		date.getTime();
 		this.commande.setDate(date);
 		// Client client = (Client) session.getAttribute("clientSession");
 		this.commande.setClient(this.client = (Client) session.getAttribute("clientSession"));
 
-		// vÃ©rification de la prÃ©sence d'un client en session
+		// vérification de la présence d'un client en session
 		if (this.commande.getClient().getId() != 0) {
 
 			// ajout de la commande dans la DB
@@ -210,10 +210,9 @@ public class CommandeMB implements Serializable {
 
 			this.detailsCommandePdf(this.commande, this.listeLignesCommandes);
 
-			MailSender mailsender = new MailSender();
 			String msg = "Bonjour\n\n Une nouvelle commande à traiter a été passée, voir la PJ pour le détail.";
 
-			mailsender.sendMail("michalbebert@gmail.com", "Nouvelle Commande", msg, this.commande);
+			MailSender.sendMail("michalbebert@gmail.com", "Nouvelle Commande", msg, this.commande);
 
 			// RÃ©initialiser la vue de l'accueilCommande + panier
 			this.viewCommande = false;
@@ -286,6 +285,19 @@ public class CommandeMB implements Serializable {
 			return "espaceClient";
 		}
 
+	}
+
+	public String supprCommandeAdmin() {
+
+		if (comService.deleteCom(this.commande, this.client) != 0) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Ok", "La commande a été supprimée"));
+			return "espaceGestionCommande";
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Impossible", "Supprimer la commande n'est pas possible"));
+		}
+		return "espaceGestionCommande";
 	}
 
 	// GetAllCommande pas Ã  faire ??! et GetOneCOmmande non plus..? Surtout si on a

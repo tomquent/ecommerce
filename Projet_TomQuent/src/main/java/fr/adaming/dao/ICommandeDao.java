@@ -9,7 +9,9 @@ import fr.adaming.model.Commande;
 
 public interface ICommandeDao {
 	
-	public List<Commande> getAllCom(Client c);
+	public List<Commande> getAllCom();
+	
+	public List<Commande> getAllComByClient(Client c);
 	
 	public Commande getCom(Commande com);
 	
