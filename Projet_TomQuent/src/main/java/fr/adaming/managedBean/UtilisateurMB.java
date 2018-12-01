@@ -1,5 +1,6 @@
 package fr.adaming.managedBean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,6 +13,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpSession;
 
+import edu.cmu.sphinx.api.Configuration;
+import edu.cmu.sphinx.api.LiveSpeechRecognizer;
+import edu.cmu.sphinx.api.SpeechResult;
 import fr.adaming.model.Categorie;
 import fr.adaming.model.Commande;
 import fr.adaming.model.Produit;
@@ -27,43 +31,41 @@ import fr.adaming.service.IUtilisateurService;
 public class UtilisateurMB implements Serializable {
 
 //	association UML en JAVA 
-	@ManagedProperty(value="#{utService}")
+	@ManagedProperty(value = "#{utService}")
 	private IUtilisateurService utService;
-	
-	
+
 	public void setUtService(IUtilisateurService utService) {
 		this.utService = utService;
 	}
 
-	@ManagedProperty(value="#{catService}")
+	@ManagedProperty(value = "#{catService}")
 	private ICategorieService catService;
 
 	public void setCatService(ICategorieService catService) {
 		this.catService = catService;
 	}
 
-	@ManagedProperty(value="#{prodService}")
+	@ManagedProperty(value = "#{prodService}")
 	private IProduitService prodService;
 
 	public void setProdService(IProduitService prodService) {
 		this.prodService = prodService;
 	}
-	
+
 	@ManagedProperty(value = "#{comService}")
 	ICommandeService comService;
-	
+
 	public void setComService(ICommandeService comService) {
 		this.comService = comService;
 	}
-	
+
 	@ManagedProperty(value = "#{clService}")
 	IClientService clService;
-	
+
 	public void setClService(IClientService clService) {
 		this.clService = clService;
 	}
 
-	
 //	Attributs
 	private Utilisateur utilisateur;
 	private List<Categorie> listeCategories;
@@ -87,12 +89,11 @@ public class UtilisateurMB implements Serializable {
 	@PostConstruct
 	public void init() {
 		this.utilisateur = new Utilisateur();
-		this.maSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);	
+		this.maSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		this.categorie = new Categorie();
 		this.produit = new Produit();
 		this.listeCommandes = comService.getAllCom();
 	}
-	
 
 //	G&S
 
@@ -178,26 +179,27 @@ public class UtilisateurMB implements Serializable {
 
 //	Autres méthodes****************************************************************************
 
-	// COTE ADMIN__________________________________________________________________________
+	// COTE
+	// ADMIN__________________________________________________________________________
 
-	//CONNEXION DECONNEXION------------------------
-	
+	// CONNEXION DECONNEXION------------------------
+
 	// se connecter
 
 	public String seConnecter() {
 //		System.out.println("le mail de this.utilisateur est " +this.utilisateur.getMail());
 		// chercher l'utilisateur dans la BD
 		Utilisateur uOut = utService.isExist(this.utilisateur);
-		
+
 //		System.out.println("le mail de uOut est " +uOut.getMail());
 		if (uOut != null) {
 			// recup de la liste de categorie
-			 this.listeCategories = catService.getAllCategories();
+			this.listeCategories = catService.getAllCategories();
 
 			// mise de l'utilisateur et de la liste dans la session
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uSession", uOut);
-			 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catListe",
-			 this.listeCategories);
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catListe",
+					this.listeCategories);
 
 			return "accueilGestionAdmin";
 
@@ -212,17 +214,23 @@ public class UtilisateurMB implements Serializable {
 	// se déconnecter
 
 	public String deconnecter() {
+		
+		try {
+			this.speechOkay();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "login";
 	}
 
-	//Gestion COMMANDES des Clients------------------------
-	
-	
-	
-	
-	// COTE COMMANDE (Client)______________________________________________________________
-		
+	// Gestion COMMANDES des Clients------------------------
+
+	// COTE COMMANDE
+	// (Client)______________________________________________________________
+
 	// Méthode lien vers la page
 
 	public String lienAccueilCommande() {
@@ -327,8 +335,8 @@ public class UtilisateurMB implements Serializable {
 
 	// Méthode choix de sélection des produits par Recherche
 
-	public void rechercheProduit() {
-
+	public void rechercheProduit() throws Exception {
+		
 		// recuperation de la liste correspondant à la désignation du produit
 		this.listeProduits = prodService.searchProduits(this.produit);
 
@@ -347,6 +355,42 @@ public class UtilisateurMB implements Serializable {
 			this.choixViewProduits = false;
 			maSession.setAttribute("choixViewProduits", this.choixViewProduits);
 		}
+
+	}
+
+	// reconnaissance vocal
+
+	public void speechOkay() {
+
+		Configuration configuration = new Configuration();
+
+		configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
+		configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
+		configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
+
+		LiveSpeechRecognizer recognizer;
+		try {
+			recognizer = new LiveSpeechRecognizer(configuration);
+			
+			recognizer.startRecognition(true);
+			SpeechResult result;
+			// Pause recognition process. It can be resumed then with
+			// startRecognition(false).
+			String okay = "okay";
+			while ((result = recognizer.getResult()) != null) {
+
+				if (result.getHypothesis().toString().equals(okay)) {
+					System.out.format(result.getHypothesis());
+					break;
+				}
+			}
+			recognizer.stopRecognition();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// Start recognition process pruning previously cached data.
+		
 	}
 
 }
