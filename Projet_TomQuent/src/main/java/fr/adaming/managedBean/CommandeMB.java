@@ -253,7 +253,7 @@ public class CommandeMB implements Serializable {
 		if (verif != 0) {
 			// maj de la liste
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("commandeListe",
-					comService.getAllCom(this.client));
+					comService.getAllComByClient(this.client));
 			return "accueilCommande";
 
 		} else {
