@@ -49,19 +49,20 @@
 				<!-- ESPACE GESTION CATALOGUE _________________________________________________ -->
 
 				<p:fieldset styleClass="col-5 articletemplate" legend="Catalogue">
-					<h:form id="dataCategories">
 
-						<h:graphicImage class="imgAccueil" library="images" value="catalogue.jpg" onclick="espaceGestionCatalogue.xhtml" />
-
-					</h:form>
+					<h:outputLink value="espaceGestionCatalogue.xhtml">
+						<h:graphicImage class="imgAccueil" library="images" name="catalogue.jpg" />
+					</h:outputLink>
+					
 				</p:fieldset>
 
 				<!-- ESPACE GESTION COMMANDES_________________________________________________ -->
 
 				<p:fieldset styleClass="col-5 articletemplate" legend="Commandes">
-
-					<h:graphicImage class="imgAccueil" library="images" value="commandes.jpg" onclick="espaceGestionCommande.xhtml" />
-
+					<h:outputLink value="espaceGestionCommande.xhtml">
+						<h:graphicImage class="imgAccueil" library="images"
+							name="commandes.jpg" />
+					</h:outputLink>
 				</p:fieldset>
 			</div>
 		</ui:define>

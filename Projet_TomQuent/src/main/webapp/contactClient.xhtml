@@ -12,11 +12,36 @@
 </h:head>
 <h:body styleClass="fondEcran">
 
-	<p:growl id="growl" life="5000" showDetail="true" />
 
 	<p:panel>
 		<ui:composition template="templates/layout.xhtml">
+
+			<!-- HEADER _________________________________________________ -->
+
+
+			<ui:define name="header">
+				<div class="header-style">
+					<h:form>
+						<p:menubar>
+							<p:menuitem action="accueilGestionAdmin.xhtml" value="Accueil"
+								icon="fa fa-home" />
+							<p:menuitem action="espaceGestionCatalogue.xhtml"
+								value="Gestion du Catalogue" icon="fa fa-list-ol" />
+							<p:menuitem action="espaceGestionCommande.xhtml"
+								value="Gestion des Commandes" icon="fa fa-exchange" />
+							<p:menuitem style="float:right"
+								action="#{utilisateurMB.deconnecter}" value="Deconnexion"
+								icon="fa fa-sign-out" />
+						</p:menubar>
+					</h:form>
+				</div>
+			</ui:define>
+
 			<ui:define name="corps">
+
+				<p:growl id="growl" life="5000" showDetail="true" />
+
+
 				<fieldset title="Contacter le client">
 					<div class="ui-g bodytemplate">
 						<h:form>
