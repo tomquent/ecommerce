@@ -150,7 +150,7 @@ public class ProduitMB implements Serializable {
 			// maj de la liste
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("produitsListe",
 					prodService.getAllProduits(this.categorie));
-			return "accueilGestionAdmin";
+			return "espaceGestionCatalogue";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Attention",
 					"Impossible de modifier ce produit, il manque des informations"));

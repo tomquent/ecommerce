@@ -58,6 +58,11 @@
 						<p:inputNumber id="idPrix"
 							value="#{produitMB.produit.prix}" required="true" />
 						<p:message for="idPrix" display="icon" />
+						
+						<p:outputLabel value="Stock Disponible" for="idStock" />
+						<p:inputNumber id="idStock" value="#{produitMB.produit.quantite}"
+							required="true" />
+						<p:message for="idStock" display="icon" />
 
 						<p:commandButton value="Ajouter le produit"
 							action="#{produitMB.ajouterProduit}" ajax="false"

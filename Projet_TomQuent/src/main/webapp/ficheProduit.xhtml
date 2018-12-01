@@ -66,6 +66,21 @@
 					</h:panelGrid>
 				</p:fieldset>
 			</h:form>
+			
+				<!-- Impression _________________________________________________ -->
+				</h:form>
+				<h:form class="col-8">
+					<h:panelGrid columns="2">
+						<p:commandButton value="Imprimer" type="button" icon="fa fa-print"
+							style="display:block;margin-bottom: 20px">
+							<p:printer target="recapitulatif" />
+						</p:commandButton>
+
+						<p:commandButton action="#{coMB.retourRecap}" value="Retour"
+							style="float:right" />
+					</h:panelGrid>
+				</h:form>
+			
 		</ui:define>
 	</ui:composition>
 
