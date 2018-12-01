@@ -22,6 +22,7 @@
 						<h:form>
 							<p:outputLabel value="Mail du client : " />
 							<h:outputText value="#{contacterMB.toMail}" />
+							<h:inputHidden value="#{contacterMB.toMail}" />
 							<h:panelGrid columns="3">
 								<p:outputLabel value="Objet" for="idObjet" />
 								<p:inputText id="idObjet" value="#{contacterMB.objet}"

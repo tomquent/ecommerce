@@ -81,7 +81,7 @@ public class ContacterMB implements Serializable {
 	}
 
 	public String contacterClient() {
-
+		
 		MailSender.sendMailAdmin(toMail, objet, msg);
 		
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,

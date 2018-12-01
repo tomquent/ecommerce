@@ -294,9 +294,8 @@ public class CommandeMB implements Serializable {
 			String subject = "Suppression de votre commande";
 
 			String msg = "Bonjour M./Mme " + this.client.getNom()
-					+ ",\n\nNous avons constaté une anomalie dans votre commande du " + this.commande.getDate().getDay()
-					+ "/" + this.commande.getDate().getMonth()
-					+ ".\n\nCette commande est donc annulé et vous serez remboursé(e) dans les plus brefs délais.\n\nNous vous prions d'excuser ce désagrément et nous vous offrons une remise de 50% sur le prochain article que vous souhaiterez acquérir sur notre site.\n\nSachez accueillir nos sincères excuses.\n\nLe service client.";
+					+ ",\n\nNous avons constaté une anomalie dans votre commande du " + this.commande.getDate().toGMTString()
+					+".\n\nCette commande est donc annulé et vous serez remboursé(e) dans les plus brefs délais.\n\nNous vous prions d'excuser ce désagrément et nous vous offrons une remise de 50% sur le prochain article que vous souhaiterez acquérir sur notre site.\n\nSachez accueillir nos sincères excuses.\n\nLe service client.";
 
 			MailSender.sendMailAdmin(this.client.getMail(), subject, msg);
 
@@ -306,14 +305,14 @@ public class CommandeMB implements Serializable {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Impossible", "Supprimer la commande n'est pas possible"));
+			return "espaceGestionCommande";
 		}
-		return "espaceGestionCommande";
+
 	}
 
-	// GetAllCommande pas Ã  faire ??! et GetOneCOmmande non plus..? Surtout si on a
-	// un <select> dans le tableau ?
 
-	// Generer le pdf de rÃ©capitulatif de la commande
+
+	// Generer le pdf de ré	capitulatif de la commande
 
 	public void detailsCommandePdf(Commande commande, List<LigneCommande> listeLignesCommandes) {
 
