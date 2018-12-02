@@ -51,7 +51,7 @@
 						<h2>Menu</h2>
 						<p:megaMenu orientation="vertical">
 							<p:menuitem icon="fa fa-shopping-basket" value="Panier"
-								url="panier.xhtml" rendered="#{sessionScope.viewClient}"></p:menuitem>
+								url="#{panierMB.lienPanier}" rendered="#{sessionScope.viewClient}"></p:menuitem>
 
 							<p:menuitem icon="fa fa-shopping-basket"
 								value="Nouvelle Commande" action="#{coMB.startCommande}"

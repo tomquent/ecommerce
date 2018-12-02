@@ -44,6 +44,7 @@
 						<h:graphicImage value="#{produitMB.produit.image}"
 							styleClass="imgAccueil" style="height:60%;width:60%" />
 
+
 						<h:panelGrid columns="2" margin="10px">
 
 							<p:outputLabel value="Catégorie" for="idCategorie" />
@@ -62,25 +63,22 @@
 							<h:outputText id="idDescription"
 								value="#{produitMB.produit.description}" />
 
+
 						</h:panelGrid>
-					</h:panelGrid>
-				</p:fieldset>
-			</h:form>
-			
-				<!-- Impression _________________________________________________ -->
-				
-				<h:form class="col-8">
-					<h:panelGrid columns="2">
 						<p:commandButton value="Imprimer" type="button" icon="fa fa-print"
 							style="display:block;margin-bottom: 20px">
 							<p:printer target="ficheProduit" />
 						</p:commandButton>
-
-						<p:commandButton action="#{coMB.retourRecap}" value="Retour"
-							style="float:right" />
 					</h:panelGrid>
-				</h:form>
-			
+				</p:fieldset>
+			</h:form>
+
+			<!-- Impression _________________________________________________ -->
+
+			<h:form class="col-8">
+
+			</h:form>
+
 		</ui:define>
 	</ui:composition>
 

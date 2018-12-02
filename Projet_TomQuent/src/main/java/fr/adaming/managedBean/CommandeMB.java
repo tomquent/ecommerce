@@ -302,7 +302,7 @@ public class CommandeMB implements Serializable {
 			return "espaceClient";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Impossible", "Supprimer la commande n'est pas possible, votre délai est dépassée"));
+					"Impossible", "Supprimer la commande n'est pas possible, votre délai de 24h est dépassée"));
 			return "espaceClient";
 		}
 
@@ -310,9 +310,7 @@ public class CommandeMB implements Serializable {
 
 	public String supprCommandeAdmin() {
 		
-		comService.deleteCom(this.commande, this.client);
-		
-		int a = comService.deleteCom(this.commande, this.client);
+		int a =comService.deleteCom(this.commande, this.client);
 		
 		if (a != 0) {
 
@@ -320,7 +318,7 @@ public class CommandeMB implements Serializable {
 
 			String msg = "Bonjour M./Mme " + this.client.getNom()
 					+ ",\n\nNous avons constaté une anomalie dans votre commande du " + this.commande.getDate().toGMTString()
-					+".\n\nCette commande est donc annulé et vous serez remboursé(e) dans les plus brefs délais.\n\nNous vous prions d'excuser ce désagrément et nous vous offrons une remise de 50% sur le prochain article que vous souhaiterez acquérir sur notre site.\n\nSachez accueillir nos sincères excuses.\n\nLe service client.";
+					+".\n\nCette commande est donc annulée et vous serez remboursé(e) dans les plus brefs délais.\n\nNous vous prions d'excuser ce désagrément et nous vous offrons une remise de 50% sur le prochain article que vous souhaiterez acquérir sur notre site.\n\nSachez accueillir nos sincères excuses.\n\nLe service client.";
 
 			MailSender.sendMailAdmin(this.client.getMail(), subject, msg);
 

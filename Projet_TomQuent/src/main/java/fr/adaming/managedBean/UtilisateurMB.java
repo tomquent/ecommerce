@@ -389,6 +389,11 @@ public class UtilisateurMB implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+				"Vous vous êtes déconnecté en criant \"okay\" "));
+
+		
 		// Start recognition process pruning previously cached data.
 		
 	}

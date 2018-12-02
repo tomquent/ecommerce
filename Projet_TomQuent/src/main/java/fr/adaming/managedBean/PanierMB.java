@@ -108,7 +108,17 @@ public class PanierMB implements Serializable {
 	// Méthode lien panier
 
 	public String lienPanier() {
-		return "panier";
+		if(this.produitsListeTampon.size()!=0) {
+			return "panier";
+
+		}else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+					"Votre panier est vide"));
+
+			return "accueilCommande";
+
+		}
+		
 	}
 
 	// Méthode ajout produits au panier
