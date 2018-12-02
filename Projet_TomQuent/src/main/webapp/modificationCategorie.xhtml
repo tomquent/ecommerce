@@ -17,16 +17,21 @@
 	<ui:composition template="templates/layout.xhtml">
 
 		<ui:define name="header">
-			<div class="header-style">
-				<h:form>
-					<p:menubar>
-						<p:menuitem action="accueilGestionAdmin.xhtml" value="Accueil"
-							icon="ui-icon-home" />
-						<p:menuitem action="#{utilisateurMB.deconnecter}"
-							value="Deconnexion" icon="ui-icon-extlink" />
-					</p:menubar>
-				</h:form>
-			</div>
+				<div class="header-style">
+					<h:form>
+						<p:menubar>
+							<p:menuitem action="accueilGestionAdmin.xhtml" value="Accueil"
+								icon="fa fa-home" />
+							<p:menuitem action="espaceGestionCatalogue.xhtml"
+								value="Gestion du Catalogue" icon="fa fa-list-ol" />
+							<p:menuitem action="espaceGestionCommande.xhtml"
+								value="Gestion des Commandes" icon="fa fa-exchange" />
+							<p:menuitem style="float:right"
+								action="#{utilisateurMB.deconnecter}" value="Deconnexion"
+								icon="fa fa-sign-out" />
+						</p:menubar>
+					</h:form>
+				</div>
 		</ui:define>
 
 		<ui:define name="corps">

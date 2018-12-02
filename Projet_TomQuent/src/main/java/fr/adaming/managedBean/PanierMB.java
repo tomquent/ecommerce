@@ -112,7 +112,7 @@ public class PanierMB implements Serializable {
 	}
 
 	// Méthode ajout produits au panier
-	public void ajoutLignesCommande() {
+	public String ajoutLignesCommande() {
 		
 		commandeEnCours.setClient((Client) maSession.getAttribute("clientSession"));
 		// verification de l'attribution d'un client non vide à la commande
@@ -137,7 +137,8 @@ public class PanierMB implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
 					"L'ajout a échoué, vous devez être inscrit pour pouvoir commander ! BOUTON S'INSCRIRE !"));
 		}
-
+		
+		return "panier";
 	}
 	
 	//Méthode supprimerProduitPanier
