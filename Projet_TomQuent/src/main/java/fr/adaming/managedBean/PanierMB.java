@@ -160,5 +160,17 @@ public class PanierMB implements Serializable {
 			}
 		}
 	}
+	
+	
+	// Réinitialisation du panier
+
+	public String retourRecap() {
+		
+		this.produitsListeTampon =new ArrayList<Produit>();
+
+		this.produitsListeSelectionne=new ArrayList<Produit>();;
+		
+		return "accueilCommande";
+	}
 
 }

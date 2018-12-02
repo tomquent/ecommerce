@@ -97,7 +97,7 @@
 						<p:fieldset styleClass="col-12"
 							legend="Choix de sélection des produits"
 							rendered="#{sessionScope.viewCommande}">
-							<p:panelGrid columns="1">
+							<h:panelGrid columns="1">
 								<h:form>
 									<p:selectOneMenu value="#{utilisateurMB.choixView}"
 										onchange="submit()"
@@ -112,7 +112,7 @@
 											itemValue="choixRecherche" />
 									</p:selectOneMenu>
 								</h:form>
-							</p:panelGrid>
+							</h:panelGrid>
 						</p:fieldset>
 
 						<!-- ESPACE Choix produit par Categorie _________________________________________________ -->
@@ -120,7 +120,7 @@
 
 						<p:fieldset styleClass="col-12" legend="Choix par Categorie"
 							rendered="#{sessionScope.choixViewCategories}">
-							<p:panelGrid columns="2">
+							<h:panelGrid columns="2">
 
 								<p:outputLabel value="Sélectionnez votre Categorie" />
 								<h:form>
@@ -134,7 +134,7 @@
 											itemValue="#{cat.idCategorie}" />
 									</p:selectOneMenu>
 								</h:form>
-							</p:panelGrid>
+							</h:panelGrid>
 
 						</p:fieldset>
 
@@ -143,7 +143,7 @@
 
 						<p:fieldset styleClass="col-12" legend="Recherche"
 							rendered="#{sessionScope.choixViewRecherche}">
-							<p:panelGrid columns="3">
+							<h:panelGrid columns="3">
 								<h:form>
 									<p:outputLabel value="Entrer la désignation de votre produit" />
 									<p:inputText autocomplete="false"
@@ -151,7 +151,7 @@
 									<p:commandButton value="Recherche du/des produits"
 										action="#{utilisateurMB.rechercheProduit}" ajax="false" />
 								</h:form>
-							</p:panelGrid>
+							</h:panelGrid>
 
 						</p:fieldset>
 

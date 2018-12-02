@@ -231,11 +231,7 @@ public class CommandeMB implements Serializable {
 			this.session.setAttribute("choixViewRecherche", false);
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Commande enregistrée !", ""));
-			
-			// Réinitialisation du panier
-			PanierMB panierMB = new PanierMB();
-			panierMB.setProduitsListeTampon(null);
-			panierMB.setProduitsListeSelectionne(null);
+
 
 			return "recapitulatifCommande";
 		} else {
@@ -244,15 +240,6 @@ public class CommandeMB implements Serializable {
 			return "panier";
 		}
 
-	}
-
-	public String retourRecap() {
-
-		PanierMB panierMB = new PanierMB();
-		panierMB.setProduitsListeTampon(null);
-		panierMB.setProduitsListeSelectionne(null);
-
-		return "accueilCommande";
 	}
 
 	// Modifier une commande // Faire que le client ne peut modifier sa commande que

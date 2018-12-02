@@ -76,7 +76,7 @@
 
 							<p:column headerText="Supprimer la commande">
 								<p:commandButton icon="fa fa-remove" styleClass="button"
-									action="#{coMB.supprCommandeAdmin}" update="dataTableCommande">
+									action="#{coMB.supprCommandeAdmin}" ajax="true" update="@all">
 									<p:confirm header="Confirmation" message="Êtes-vous sûr(e) ?" />
 									<f:setPropertyActionListener value="#{com}"
 										target="#{coMB.commande}" />

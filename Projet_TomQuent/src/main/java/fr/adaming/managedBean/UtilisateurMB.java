@@ -17,6 +17,7 @@ import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.LiveSpeechRecognizer;
 import edu.cmu.sphinx.api.SpeechResult;
 import fr.adaming.model.Categorie;
+import fr.adaming.model.Client;
 import fr.adaming.model.Commande;
 import fr.adaming.model.Produit;
 import fr.adaming.model.Utilisateur;
@@ -234,26 +235,87 @@ public class UtilisateurMB implements Serializable {
 	// COTE COMMANDE
 	// (Client)______________________________________________________________
 
-	// Méthode lien vers la page
+	// Méthode lien vers la page accueil de login
 
 	public String lienAccueilCommande() {
+		Client clIn = (Client) maSession.getAttribute("clientSession");
+		if(clIn!=null) {
+		
+			// gestion des vues
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("viewCommande", false);
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("viewClient", true);
+			this.choixViewProduits = false;
+			maSession.setAttribute("choixViewProduits", this.choixViewProduits);
+			this.choixViewCategories = false;
+			maSession.setAttribute("choixViewCategories", this.choixViewCategories);
+			this.choixViewRecherche = false;
+			maSession.setAttribute("choixViewRecherche", this.choixViewRecherche);
+			
+			
+			// mise de la liste de categorie dans la session
+			this.listeCategories = catService.getAllCategories();
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catListe", this.listeCategories);
 
-		// gestion des vues
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("viewCommande", false);
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("viewClient", false);
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("commandeEnCours", new Commande());
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("clientSession", null);
+			// mise de la liste totale de produits dans la session
+			this.listeProduits = prodService.getAllProduits();
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("produitsListe", this.listeProduits);
+			
+				return "accueilCommande";
 
-		// mise de la liste de categorie dans la session
-		this.listeCategories = catService.getAllCategories();
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catListe", this.listeCategories);
+		}else {
+			
+			// gestion des vues
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("viewCommande", false);
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("viewClient", false);
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("commandeEnCours", new Commande());
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("clientSession", null);
+			this.choixViewProduits = false;
+			maSession.setAttribute("choixViewProduits", this.choixViewProduits);
+			this.choixViewCategories = false;
+			maSession.setAttribute("choixViewCategories", this.choixViewCategories);
+			this.choixViewRecherche = false;
+			maSession.setAttribute("choixViewRecherche", this.choixViewRecherche);
+			
+			
+			// mise de la liste de categorie dans la session
+			this.listeCategories = catService.getAllCategories();
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catListe", this.listeCategories);
 
-		// mise de la liste totale de produits dans la session
-		this.listeProduits = prodService.getAllProduits();
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("produitsListe", this.listeProduits);
+			// mise de la liste totale de produits dans la session
+			this.listeProduits = prodService.getAllProduits();
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("produitsListe", this.listeProduits);
 
-		return "accueilCommande";
+			return "accueilCommande";
+
+		}
+		
 	}
+	
+	public String lienAccueilCommandeLogin() {
+		// gestion des vues
+					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("viewCommande", false);
+					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("viewClient", false);
+					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("commandeEnCours", new Commande());
+					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("clientSession", null);
+					this.choixViewProduits = false;
+					maSession.setAttribute("choixViewProduits", this.choixViewProduits);
+					this.choixViewCategories = false;
+					maSession.setAttribute("choixViewCategories", this.choixViewCategories);
+					this.choixViewRecherche = false;
+					maSession.setAttribute("choixViewRecherche", this.choixViewRecherche);
+					
+					
+					// mise de la liste de categorie dans la session
+					this.listeCategories = catService.getAllCategories();
+					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catListe", this.listeCategories);
+
+					// mise de la liste totale de produits dans la session
+					this.listeProduits = prodService.getAllProduits();
+					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("produitsListe", this.listeProduits);
+
+					return "accueilCommande";
+	}
+
 
 	// Méthode choix de sélection des produits pour la commande
 
