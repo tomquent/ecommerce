@@ -295,6 +295,17 @@ public class CommandeMB implements Serializable {
 			if (a != 0) {
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "Ok", "La commande a été supprimée"));
+				
+				// Mise à jour du stock suite à la suppression de la commande
+				for (int i = 0; i < this.commande.getLignesCommandes().size(); i++) {
+					
+					int quantite = (int) this.commande.getLignesCommandes().get(i).getQuantite();
+					
+					this.commande.getLignesCommandes().get(i).getProduit().setQuantite(this.commande.getLignesCommandes().get(i).getProduit().getQuantite() + quantite);
+					prodService.updateProduit(this.commande.getLignesCommandes().get(i).getProduit(), this.commande.getLignesCommandes().get(i).getProduit().getpCategorie());
+							
+				}
+				
 			} else {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 						"Impossible", "Supprimer la commande n'est pas possible"));
@@ -324,6 +335,18 @@ public class CommandeMB implements Serializable {
 
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Ok", "La commande a été supprimée"));
+			
+			// Mise à jour du stock suite à la suppression de la commande
+			for (int i = 0; i < this.commande.getLignesCommandes().size(); i++) {
+				
+				int quantite = (int) this.commande.getLignesCommandes().get(i).getQuantite();
+				
+				this.commande.getLignesCommandes().get(i).getProduit().setQuantite(this.commande.getLignesCommandes().get(i).getProduit().getQuantite() + quantite);
+				prodService.updateProduit(this.commande.getLignesCommandes().get(i).getProduit(), this.commande.getLignesCommandes().get(i).getProduit().getpCategorie());
+						
+			}
+			
+			
 			return "espaceGestionCommande";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
