@@ -20,13 +20,15 @@
 
 
 		<ui:define name="header">
+					<p:growl id="growl" life="5000" showDetail="true" />
+	
 			<div class="header-style">
 				<h:form>
 					<p:menubar>
-						<p:menuitem action="accueilCommande.xhtml" value="Accueil"
+						<p:menuitem action="#{utilisateurMB.lienAccueilCommande}" value="Accueil"
 							icon="ui-icon-home" />
 						<p:menuitem action="#{utilisateurMB.deconnecter}" value="Quitter"
-							icon="ui-icon-extlink" />
+							icon="ui-icon-extlink" update="growl" />
 
 						<p:menuitem action="#{clMB.espaceClient}"
 							style="float:right" value="Espace Client"
@@ -41,7 +43,7 @@
 
 		<ui:define name="corps">
 
-			<p:growl id="growl" life="3000" autoUpdate="true" showDetail="true" />
+			<p:growl life="3000" autoUpdate="true" showDetail="true" />
 
 			<div class="ui-g bodytemplate">
 
@@ -49,7 +51,7 @@
 				<p:fieldset styleClass="col-2 articletemplate">
 					<h:form>
 						<h2>Menu</h2>
-						<p:megaMenu orientation="vertical">
+						<p:megaMenu styleClass="menuCommande" orientation="vertical">
 							<p:menuitem icon="fa fa-shopping-basket" value="Panier"
 								action="#{panierMB.lienPanier}" rendered="#{sessionScope.viewClient}"></p:menuitem>
 

@@ -23,9 +23,9 @@ fieldset {
 .footer-style {
 	background-color: #AAAAAA;
 	text-align: center;
-	padding-top:50%;
+	padding-top: 50%;
 	height: 80px;
-	padding : 10px;
+	padding: 10px;
 	border-radius: 5px;
 }
 
@@ -60,12 +60,10 @@ fieldset {
 }
 
 /* ORGANISATION DES PAGES EN COLONNE---------------------------------------- */
-
-
-.verticalcentered{
+.verticalcentered {
 	position: relative;
-	top:25px;
-	bottom:20px;
+	top: 25px;
+	bottom: 20px;
 }
 
 .col-1 {
@@ -118,8 +116,9 @@ fieldset {
 
 [class*="col-"] {
 	float: left;
-	padding: 0px;
-/* 	border: 1px solid red; */
+	padding: 1px;
+	text-align: center;
+	/* 	border: 1px solid red; */
 }
 
 .row::after {
@@ -147,10 +146,26 @@ fieldset {
 }
 
 /* RESPONSIVE ------------------------------------------*/
+header {
+	width: 1300px;
+}
+
+@media screen and (max-width: 1300px) {
+	header {
+		width: 1200px;
+	}
+	.col-9 {
+		width: 100%;
+	}
+}
+
 @media screen and (max-width: 1200px) {
 	.col-1, .col-2 {
 		width: 0%;
 		padding: 5px;
+	}
+	.col-2 .articletemplate {
+		width: 100%;
 	}
 	.col-3, .col-4, .col-5, .col-6 {
 		width: 100%;
@@ -162,12 +177,11 @@ fieldset {
 		height: 100px;
 		vertical-align: middle;
 	}
-	
-	.verticalcentered{
-	position: relative;
-	top:5px;
-	bottom:20px;
-}
+	.verticalcentered {
+		position: relative;
+		top: 5px;
+		bottom: 20px;
+	}
 }
 
 @media screen and (max-width: 992px) {

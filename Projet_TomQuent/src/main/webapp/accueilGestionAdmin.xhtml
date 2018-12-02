@@ -22,6 +22,8 @@
 
 
 		<ui:define name="header">
+			<p:growl id="growl" life="5000" autoUpdate="true" showDetail="true" />
+		
 			<div class="header-style">
 				<h:form>
 					<p:menubar>
@@ -33,7 +35,7 @@
 							value="Gestion des Commandes" icon="fa fa-exchange" />
 						<p:menuitem style="float:right"
 							action="#{utilisateurMB.deconnecter}" value="Deconnexion"
-							icon="fa fa-sign-out" />
+							icon="fa fa-sign-out" update="growl"/>
 					</p:menubar>
 				</h:form>
 			</div>
@@ -42,8 +44,6 @@
 
 		<ui:define name="corps">
 
-			<p:growl id="growl" life="3000" autoUpdate="true" showDetail="true" />
-
 			<div class="ui-g bodytemplate">
 
 				<!-- ESPACE GESTION CATALOGUE _________________________________________________ -->
@@ -51,9 +51,10 @@
 				<p:fieldset styleClass="col-5 articletemplate" legend="Catalogue">
 
 					<h:outputLink value="espaceGestionCatalogue.xhtml">
-						<h:graphicImage class="imgAccueil" library="images" name="catalogue.jpg" />
+						<h:graphicImage class="imgAccueil" library="images"
+							name="catalogue.jpg" />
 					</h:outputLink>
-					
+
 				</p:fieldset>
 
 				<!-- ESPACE GESTION COMMANDES_________________________________________________ -->

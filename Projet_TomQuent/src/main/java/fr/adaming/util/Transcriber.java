@@ -25,7 +25,7 @@ public class Transcriber {
 //		SpeechResult result;
 //		// Pause recognition process. It can be resumed then with
 //		// startRecognition(false).
-//		String okay = "okay";
+//		String okay = "exit";
 //		while ((result = recognizer.getResult()) != null) {
 //			
 //			System.out.format("Hypothesis: %s\n", result.getHypothesis());

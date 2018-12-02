@@ -236,7 +236,7 @@ public class ClientMB implements Serializable {
 	// Méthode accès Espace Client
 
 	public String espaceClient() {
-		if (this.client != null) {
+		if (this.client.getId() != 0) {
 			if (comService.getAllComByClient(this.client).size() != 0) {
 				this.listeCommandesActuelles = comService.getAllComByClient(this.client);
 			} else {

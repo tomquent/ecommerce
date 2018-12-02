@@ -16,6 +16,22 @@
 
 	<p:panel>
 		<ui:composition template="templates/layout.xhtml">
+
+
+			<ui:define name="header">
+				<p:growl id="growl" life="5000" autoUpdate="true" showDetail="true" />
+
+				<div class="header-style">
+					<h:form>
+						<p:menubar>
+							<p:menuitem action="#{utilisateurMB.lienAccueilCommande}" value="Retour"
+								icon="fa fa-sign-out" />
+						</p:menubar>
+					</h:form>
+				</div>
+			</ui:define>
+
+
 			<ui:define name="corps">
 				<fieldset title="Contacter l'administrateur">
 					<div class="ui-g bodytemplate">

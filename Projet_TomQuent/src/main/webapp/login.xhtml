@@ -14,18 +14,19 @@
 </h:head>
 <h:body>
 
+	<p:growl id="growl" life="5000" autoUpdate="true" showDetail="true" />
+
+
 	<ui:composition template="/templates/layout.xhtml">
 
 		<ui:define name="header">
 			<h:panelGroup layout="block" class="header-style">
 				<h:outputText style="font-size:40px;"
-					value="Bienvenue sur notre site TomQuent : le E-Commerce du turfu" />
+					value="Bienvenue sur TomQuent : le E-Commerce du turfu" />
 			</h:panelGroup>
 		</ui:define>
 
 		<ui:define name="corps">
-
-			<p:growl id="growl" life="3000" autoUpdate="true" showDetail="true" />
 
 			<div class="ui-g bodytemplate">
 				<p:fieldset styleClass="ui-g-6 articletemplate">

@@ -214,14 +214,17 @@ public class UtilisateurMB implements Serializable {
 	// se déconnecter
 
 	public String deconnecter() {
+
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Deconnexion vocal", "Dites \"GOOD\" pour quitter"));
 		
 		try {
 			this.speechOkay();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "login";
 	}
@@ -336,7 +339,7 @@ public class UtilisateurMB implements Serializable {
 	// Méthode choix de sélection des produits par Recherche
 
 	public void rechercheProduit() throws Exception {
-		
+
 		// recuperation de la liste correspondant à la désignation du produit
 		this.listeProduits = prodService.searchProduits(this.produit);
 
@@ -371,16 +374,18 @@ public class UtilisateurMB implements Serializable {
 		LiveSpeechRecognizer recognizer;
 		try {
 			recognizer = new LiveSpeechRecognizer(configuration);
-			
+
 			recognizer.startRecognition(true);
 			SpeechResult result;
 			// Pause recognition process. It can be resumed then with
 			// startRecognition(false).
-			String okay = "okay";
+			String go = "good";
 			while ((result = recognizer.getResult()) != null) {
-
-				if (result.getHypothesis().toString().equals(okay)) {
+				System.out.format(result.getHypothesis());
+				if (result.getHypothesis().toString().equals(go)) {
 					System.out.format(result.getHypothesis());
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Deconnexion vocal", "Vous vous êtes déconnecté en criant \"GO\" "));
 					break;
 				}
 			}
@@ -389,13 +394,9 @@ public class UtilisateurMB implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-				"Vous vous êtes déconnecté en criant \"okay\" "));
 
-		
 		// Start recognition process pruning previously cached data.
-		
+
 	}
 
 }

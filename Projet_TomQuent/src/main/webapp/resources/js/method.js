@@ -1,14 +1,11 @@
-//	alert($("#choixCompte").val());
 
-function choisirCompte() {
-	if ($("#choixCompte").val() == "cCOutTransfert") {
-		$("#cEOutTransfert").hide();
-		$("#cCOutTransfert").toggle();
-	} else if ($("#choixCompte").val() == "cEOutTransfert") {
-		$("#cCOutTransfert").hide();
-		$("#cEOutTransfert").toggle();
-	} else {
-		$("#cCOutTransfert").hide();
-		$("#cEOutTransfert").hide();
+
+
+$(window).resize(function(){
+	
+	if($('header').width() == 1200 ){
+		 $('.menuCommande').BindMENU({MenuStyle:"MegaMenu",Orientation:"Horizontal"});
+		
 	}
-}
+		
+})	
