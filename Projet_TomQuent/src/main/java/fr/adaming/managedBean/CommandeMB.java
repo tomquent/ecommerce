@@ -297,7 +297,7 @@ public class CommandeMB implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 						"Impossible", "Supprimer la commande n'est pas possible"));
 			}
-			return "espaceClient";
+			return "accueilCommande";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Impossible", "Supprimer la commande n'est pas possible, votre délai de 24h est dépassée"));
@@ -334,7 +334,7 @@ public class CommandeMB implements Serializable {
 			}
 			
 			
-			return "espaceGestionCommande";
+			return "accueilGestionAdmin";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Impossible", "Supprimer la commande n'est pas possible"));
